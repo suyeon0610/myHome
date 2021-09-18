@@ -139,7 +139,7 @@ to {
 									<c:forEach var="a" items="${articles }">
 										<tr>
 											<td>${a.quizNum}</td>
-											<td class="title" id=""><a href='<c:url value="/quiz/quizDetail/${a.quizNum}" />'>${a.title}</a><span class="hit">hit!</span></td>
+											<td class="title" id=""><a href='<c:url value="/quiz/quizDetail/${a.quizNum}?pageNum=" />'>${a.title}</a><span class="hit">hit!</span></td>
 											<td>${a.writer}</td>
 											<td><fmt:formatDate value="${a.regDate}" pattern="yyyy-MM-dd"/></td>
 											<td>${a.views}</td>

@@ -1,10 +1,17 @@
 package com.spring.myWeb.controller;
 
 import java.io.File;
+import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,17 +81,23 @@ public class QuizController {
 			String content = article.getContent();
 			String title = article.getTitle();
 			String type = article.getType();
-			String filePath = "";
+			String fileLoca = "";
 			
-			System.out.println("파일정보: " + file.toString());
+			// 파일 저장 경로
+			//※경로를 resources로 잡르면 was 재실행 시 워크 스페이스 내용으로 바뀌면서 파일 자동 삭제 됨
+//			String resource = servletContext.getRealPath("/resources"); 
+			String path = "C:\\home\\quiz\\upload";
+			
+			// 파일 이름에 사용할 날짜
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			Date date = new Date();
+			String fileDate = sdf.format(date);
+			
 			
 			if(!file.isEmpty()) { // 업로드 파일이 있는 경우
 				
-				// 파일 저장할 위치
-				String fileLoca = "_" + writer;
-				
 				// 저장할 폴더 경로
-				String uploadPath = "C:\\home\\quiz" + fileLoca;
+				String uploadPath = path + "\\" + writer;
 				
 				File folder = new File(uploadPath);
 				if (!folder.exists()) {
@@ -102,17 +115,22 @@ public class QuizController {
 				// 확장자
 				String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
 				
-				String fileName = uniqueName + fileExtension;
+				String fileName = fileDate + "_" + uniqueName + fileExtension;
 				
 				// 파일 경로 + 이름
-				filePath = uploadPath + "\\" + fileName;
+				String filePath = uploadPath + "\\" + fileName;
+				
+				System.out.println(filePath);
 				
 				File saveFile = new File(filePath);
 				file.transferTo(saveFile);
 				
+				// sql에 저장할 파일 경로
+				fileLoca = writer + "/" + fileName;
+				
 			}
 			
-			QuizVO vo = new QuizVO(0, writer, title, content, type, filePath, 0, null, null);
+			QuizVO vo = new QuizVO(0, writer, title, content, type, fileLoca, 0, null, null);
 			service.regist(vo);
 
 		} catch (Exception e) {

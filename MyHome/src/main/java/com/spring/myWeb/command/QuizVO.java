@@ -42,7 +42,7 @@ public class QuizVO {
 	private String title;
 	private String content;
 	private String type;
-	private String filePath;
+	private String fileLoca;
 	private int views;
 	private Timestamp regDate;
 	private Timestamp updateDate;

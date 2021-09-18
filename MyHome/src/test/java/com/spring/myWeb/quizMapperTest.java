@@ -27,7 +27,7 @@ public class quizMapperTest {
 			vo.setWriter("김테스트" + i);
 			vo.setContent("테스트 글 내용입니다" + i);
 			vo.setType("타입" + i);
-			vo.setFilePath("");
+			vo.setFileLoca("");
 			mapper.regist(vo);
 		}
 		

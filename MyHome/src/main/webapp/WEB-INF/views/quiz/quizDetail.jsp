@@ -16,7 +16,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <style>
-      
+        #contentForm {
+            width: 40%;
+            margin: 0 auto;
+            padding-top: 12%;
+        }
+        .table>thead>tr>th,
+        .table>tbody>tr>th {
+            background-color: #e6ecff;
+            text-align: center;
+        }
+        .btns{
+            text-align: right;
+        }
     </style>
 
 
@@ -24,19 +36,21 @@
 
 <body>
     <form action='<c:url value="/quiz/quizModify" />' method="get">
-        <div class="contentForm col-xs-12 col-md-12"> <input type="hidden" name="#" value="#"> <input type="hidden"
-                name="groupId" value="#">
-            <input type="hidden" name="depth" value="#"> <input type="hidden" name="#" value="#">
+        <div class="contentForm col-xs-12 col-md-12"> 
+	        <input type="hidden" name="#" value="#"> 
+	        <input type="hidden" name="groupId" value="#">
+	        <input type="hidden" name="depth" value="#"> 
+	        <input type="hidden" name="#" value="#">
             <div class="input-group input-group-sm" role="group" aria-label="...">
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th width="30%">글쓴이</th>
-                            <td width="70%">${article.writer }</td>
+                            <td width="70%"><input type="text" name="writer" value="${article.writer }" readonly="readonly" style="width: 100%"></td>
                         </tr>
                         <tr>
                             <th style="padding-bottom: 15px;">제목</th>
-                            <td>${article.title }</td>
+                            <td><input type="text" name="title" value="${article.title }" readonly="readonly"></td>
                         </tr>
                         <tr>
                             <th style="padding-bottom: 15px;">날짜</th>
@@ -45,16 +59,18 @@
                     </thead>
                     <tbody>
                         <tr height="200" valign="top" style="background-color: #fff;">
-                            <td colspan="4"> ${article.content } </td>
+                            <td colspan="4">
+                            	<c:if test="${article.fileLoca != null }">
+	                             	<img alt="가구 이미지" src="/img/${article.fileLoca }" width="100" height="100">
+                            	</c:if>
+	                             	${article.content }                             	
+                             </td>
                         </tr>
                         <tr >
                         	<td colspan="4">조회수: ${article.views }</td>
                         </tr>
                             <tr style="background-color: #fff;"> 
-	                            <td colspan="2" 
-	                                style="border-bottom: hidden;
-	                                border-left: hidden;
-	                                border-right: hidden;">
+	                            <td colspan="2" style="border-bottom: hidden; border-left: hidden; border-right: hidden;">
 	                                <button type="button" class="btn btn-info btn-sm">
 	                                <span class="glyphicon glyphicon-bookmark"></span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
 	                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
@@ -67,8 +83,8 @@
 	                              </button>
 	                              <div class="btn-group btn-group-sm " style= "margin-left: 69%;"role="group" aria-label="..."> 
 		                              <input type="submit" class="btn btn-info btns" value="수정"> 
-		                              <input type="reset" class="btn btn-info btns" value="삭제"> 
-		                              <input type="button" class="btn btn-info btns" value="목록"> 
+		                              <input type="button" class="btn btn-info btns" id="DeleteBtn" value="삭제"> 
+		                              <input type="button" class="btn btn-info btns" id="ListBtn" value="목록"> 
 	                              </div>
 	                            </td>
                             </tr>
@@ -76,6 +92,8 @@
                 </table>
             </div>
 
+		</div>
+	</form>
 
             <!-- Reply Form {s} -->
 
@@ -84,7 +102,7 @@
                     <div class="col-xs-12 col-md-12 write-wrap">
                         <div class="reply-wrap">
                             <div class="reply-image">
-                                <img src="../img/icon.png" alt="prof">
+                                <img src="${pageContext.request.contextPath}/resources/img/icon.png" alt="prof" class="userimg">
                             </div>
                             <div class="reply-content">
                                 <div class="reply-group clearfix">
@@ -105,7 +123,7 @@
                         </div>
                         <div class="reply-wrap">
                             <div class="reply-image">
-                                <img src="../img/icon.png" alt="prof">
+                                <img src="${pageContext.request.contextPath}/resources/img/icon.png" alt="prof" class="userimg">
                             </div>
                             <div class="reply-content">
                                 <div class="reply-group">
@@ -138,26 +156,6 @@
                         </li>
                         <li class="page-item">
                             <a class="page-link" href="#">
-                                2
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">
-                                3
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">
-                                4
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">
-                                5
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">
                                 다음
                             </a>
                         </li>
@@ -165,8 +163,8 @@
                 </nav>
             </div>
 
-        </div>
-    </form>
+        
+    
 
 </body>
 
@@ -175,7 +173,10 @@
 	// start JQuery
 	$(function() {
 		
-		$('.')
+		// 목록 버튼 클릭
+		$("#listBtn").click(function() {
+			location.href="<c:url value='/quiz/quizList' />";
+		});
 		
 	});
 

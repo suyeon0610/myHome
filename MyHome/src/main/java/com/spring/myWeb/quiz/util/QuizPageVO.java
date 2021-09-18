@@ -12,7 +12,7 @@ public class QuizPageVO {
 	
 	public QuizPageVO() {
 		this.pageNum = 1;
-		this.countPerPage = 5;	
+		this.countPerPage = 10;	
 	}
 
 }

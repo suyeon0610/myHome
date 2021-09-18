@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,24 +34,28 @@
 </head>
 
 <body>
-	<form action="#" method="post">
+
+
+	<form action='<c:url value="/quiz/quizModify" />' method="post">
 		<div id="contentForm">
-			<input type="hidden" name="#" value="#"> <input type="hidden"
-				name="groupId" value="#"> <input type="hidden" name="depth"
-				value="#"> <input type="hidden" name="#" value="#">
+			<input type="hidden" name="#" value="#"> 
+			<input type="hidden" name="groupId" value="#"> 
+			<input type="hidden" name="depth" value="#"> 
+			<input type="hidden" name="#" value="#">
 			<div class="input-group input-group-sm" role="group" aria-label="...">
 				<table class="table table-striped table-bordered">
 					<thead>
 
 						<tr>
 							<th style="padding-bottom: 15px;">제목</th>
-							<td><input type="text" name="title" value=""
-								class="form-control" aria-describedby="basic-addon1"></td>
+							<td>
+								<input type="text" name="title" value="${article.title }" class="form-control" aria-describedby="basic-addon1">
+							</td>
 						</tr>
 						<tr>
 							<th style="padding-bottom: 15px;">분류</th>
 							<td>
-								<select class="form-control" name="#" id="#">
+								<select class="form-control" name="type" id="#">
 									<option>시공</option>
 									<option>도배</option>
 									<option>타일</option>
@@ -63,18 +69,20 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td colspan="2"><textarea class="form-control" rows="10"
-									name="content" placeholder="글을 적어 주세요."></textarea> <input
-								type="file" name="profile"></td>
+							<td colspan="2">
+								<textarea class="form-control" rows="10" name="content" placeholder="글을 적어 주세요."></textarea>
+								<input type="file" name="file">
+							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			<div class="btn-group btn-group-sm" role="group" aria-label="...">
+			<div class="btn-group btn-group-sm" role="group" aria-label="..." style="margin-bottom: 100px;">
 				<input type="submit" class="btn btn-info btns" value="수정">
 			</div>
 		</div>
 	</form>
+
 
 
 

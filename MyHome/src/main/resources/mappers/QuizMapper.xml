@@ -9,12 +9,12 @@
 		<id property="quizNum" column="quiz_num" />
 		<result property="regDate" column="reg_date" />
 		<result property="updateDate" column="update_date" />
-		<result property="filePath" column="file_path"/>
+		<result property="fileLoca" column="file_loca"/>
 	</resultMap>
 	
 	<insert id="regist">
-  		INSERT INTO quiz(quiz_num, writer, title, content, type, file_path)
- 		VALUES(quiz_seq.NEXTVAL, #{writer}, #{title}, #{content}, #{type}, #{filePath} )
+  		INSERT INTO quiz(quiz_num, writer, title, content, type, file_loca)
+ 		VALUES(quiz_seq.NEXTVAL, #{writer}, #{title}, #{content}, #{type}, #{fileLoca} )
   	</insert>
 	
 	<select id="getList" resultMap="QuizMap">
@@ -44,7 +44,7 @@
   	
   	<update id="modify">
   		UPDATE quiz 
-  		SET title=#{title}, content=#{content}, type=#{type}, file_path=#{filePath}, update_date=SYSDATE
+  		SET title=#{title}, content=#{content}, type=#{type}, file_loca=#{fileLoca}, update_date=SYSDATE
   		WHERE quiz_num = #{quizNum}
   	</update>
   
