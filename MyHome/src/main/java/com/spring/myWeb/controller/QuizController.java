@@ -56,9 +56,11 @@ public class QuizController {
 
 	// 질문 상세보기 화면 요청
 	@GetMapping("/quizDetail/{quizNum}")
-	public String article(@PathVariable int quizNum, Model model) {
+	public String article(@PathVariable int quizNum, Model model,
+							@RequestParam int pageNum) {
 		System.out.println("/quiz/detail: GET");
 		model.addAttribute("article", service.getDetail(quizNum));
+		model.addAttribute("pageNum", pageNum);
 		
 		return "quiz/quizDetail";
 	}
