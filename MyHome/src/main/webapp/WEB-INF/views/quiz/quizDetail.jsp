@@ -10,20 +10,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QnA</title>
-<link rel="shortcut icon"
-	href="${pageContext.request.contextPath}/resources/img/home-icon.png">
-<link
-	href="${pageContext.request.contextPath}/resources/css/bootstrap.css"
-	rel="stylesheet">
-<link
-	href="${pageContext.request.contextPath}/resources/css/qna_write_view.css"
-	rel="stylesheet">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<!-- JQuery -->
-<script type="text/javascript" src="resources/js/jquery.js"></script>
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/home-icon.png">
+<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/qna_write_view.css" rel="stylesheet">
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <style>
 #contentForm {
 	width: 40%;
@@ -45,7 +37,7 @@
 </head>
 
 <body>
-	<form action='<c:url value="/quiz/quizModify" />' method="get">
+	<form action='<c:url value="/quiz/quizModify" />' method="get" id="quizDetailForm">
 		<div class="contentForm col-xs-12 col-md-12">
 			<input type="hidden" name="#" value="#"> <input type="hidden"
 				name="groupId" value="#"> <input type="hidden" name="depth"
@@ -102,7 +94,7 @@
 								<div class="btn-group btn-group-sm " style="margin-left: 69%;"
 									role="group" aria-label="...">
 									<input type="submit" class="btn btn-info btns" value="수정">
-									<input type="button" class="btn btn-info btns" id="DeleteBtn" value="삭제"> 
+									<input type="button" class="btn btn-info btns" id="delBtn" value="삭제"> 
 									<input type="button" class="btn btn-info btns" id="listBtn" value="목록">
 								</div>
 							</td>
@@ -188,6 +180,19 @@
 		// 목록 버튼 클릭
 		$("#listBtn").click(function() {
 			location.href = "<c:url value='/quiz/quizList?pageNum=${pageNum}' />";
+		});
+		
+		// 삭제 버튼 클릭
+		$("#delBtn").click(function() {
+			
+			cosnt result = confirm('정말 삭제 하시겠습니까?');
+			
+			if(result) {
+				$('#quizDetailForm').attr('action', '<c:url value="/quiz/quizDelete?quizNum=${article.quizNum}" />');
+				$('#quizDetailForm').attr('method', 'post');				
+			}
+			
+			
 		});
 
 	});

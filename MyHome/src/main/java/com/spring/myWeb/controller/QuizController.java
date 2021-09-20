@@ -163,10 +163,12 @@ public class QuizController {
 
 	// 질문 삭제 요청
 	@PostMapping("/quizDelete")
-	public String delete(@RequestParam("quizNum") int quizNum) {
+	public String delete(@RequestParam("quizNum") int quizNum, RedirectAttributes ra) {
 		System.out.println("/quiz/quizDelete: POST");
 
 		service.delete(quizNum);
+		ra.addFlashAttribute("msg", "delSuccess");
+		
 		return "redirect:/quiz/quizList";
 	}
 

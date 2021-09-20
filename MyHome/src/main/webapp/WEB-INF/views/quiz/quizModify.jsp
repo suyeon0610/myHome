@@ -38,7 +38,7 @@
 
 	<form action='<c:url value="/quiz/quizModify" />' method="post">
 		<div id="contentForm">
-			<input type="hidden" name="#" value="#"> 
+			<input type="hidden" name="quizNum" value="${article.quizNum }"> 
 			<input type="hidden" name="groupId" value="#"> 
 			<input type="hidden" name="depth" value="#"> 
 			<input type="hidden" name="#" value="#">
@@ -70,7 +70,7 @@
 					<tbody>
 						<tr>
 							<td colspan="2">
-								<textarea class="form-control" rows="10" name="content" placeholder="글을 적어 주세요."></textarea>
+								<textarea class="form-control" rows="10" name="content">${article.content }</textarea>
 								<input type="file" name="file">
 							</td>
 						</tr>

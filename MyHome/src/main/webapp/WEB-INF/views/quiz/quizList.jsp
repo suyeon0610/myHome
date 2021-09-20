@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
 
 <!-- JQuery -->
-<script type="text/javascript" src="resources/js/jquery.js" ></script> 
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.min.js"></script>
 
 <style>
 #container {
@@ -208,6 +208,11 @@ to {
 </body>
 
 <script>
+
+	const msg = '${msg}';
+	if(msg == "delSuccess") {
+		alert('삭제가 완료되었습니다.');
+	}
 	
 /*
 	// start JQuery
