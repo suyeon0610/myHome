@@ -102,9 +102,8 @@
 								<div class="btn-group btn-group-sm " style="margin-left: 69%;"
 									role="group" aria-label="...">
 									<input type="submit" class="btn btn-info btns" value="수정">
-									<input type="button" class="btn btn-info btns" id="DeleteBtn"
-										value="삭제"> <input type="button"
-										class="btn btn-info btns" id="ListBtn" value="목록">
+									<input type="button" class="btn btn-info btns" id="DeleteBtn" value="삭제"> 
+									<input type="button" class="btn btn-info btns" id="listBtn" value="목록">
 								</div>
 							</td>
 						</tr>
@@ -188,7 +187,7 @@
 
 		// 목록 버튼 클릭
 		$("#listBtn").click(function() {
-			location.href = "<c:url value='/quiz/quizLis?pageNum=${pageNum}' />";
+			location.href = "<c:url value='/quiz/quizList?pageNum=${pageNum}' />";
 		});
 
 	});
