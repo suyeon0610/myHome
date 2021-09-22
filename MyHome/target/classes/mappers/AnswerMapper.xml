@@ -30,8 +30,8 @@
 			) tbl
 		)
 		<![CDATA[
-		WHERE rn > (#{paging.page}-1)*#{paging.countPerPage})
-		AND rn < #{paging.page}*#{paging.countPerPage}
+		WHERE rn > (#{paging.pageNum}-1) * #{paging.countPerPage}
+		AND rn <= #{paging.pageNum} * #{paging.countPerPage}
 		]]>
 	</select>
 	
@@ -46,7 +46,7 @@
 		WHERE answer_num=#{answerNum}
 	</delete>
 	
-	<select id="getTotalcount" resultType="int">
+	<select id="getTotalCount" resultType="int">
 		SELECT COUNT(*)
 		FROM answer
 		WHERE quiz_num = #{quizNum}

@@ -1,4 +1,4 @@
-package com.spring.myWeb.controller;
+  package com.spring.myWeb.controller;
 
 import java.io.File;
 import java.net.URI;
@@ -57,11 +57,12 @@ public class QuizController {
 	// 질문 상세보기 화면 요청
 	@GetMapping("/quizDetail/{quizNum}")
 	public String article(@PathVariable int quizNum, Model model,
-							@RequestParam int pageNum) {
+							@ModelAttribute("pageNum") int pageNum) {
 		System.out.println("/quiz/detail: GET");
-		model.addAttribute("article", service.getDetail(quizNum));
-		model.addAttribute("pageNum", pageNum);
 		
+		
+		service.updateCnt(quizNum);
+		model.addAttribute("article", service.getDetail(quizNum));
 		return "quiz/quizDetail";
 	}
 
@@ -163,13 +164,14 @@ public class QuizController {
 
 	// 질문 삭제 요청
 	@PostMapping("/quizDelete")
-	public String delete(@RequestParam("quizNum") int quizNum, RedirectAttributes ra) {
+	public String delete(@RequestParam int quizNum, @RequestParam int pageNum,
+							RedirectAttributes ra) {
 		System.out.println("/quiz/quizDelete: POST");
 
 		service.delete(quizNum);
 		ra.addFlashAttribute("msg", "delSuccess");
 		
-		return "redirect:/quiz/quizList";
+		return "redirect:/quiz/quizList?pageNum=" + pageNum;
 	}
 
 }

@@ -212,6 +212,8 @@ to {
 	const msg = '${msg}';
 	if(msg == "delSuccess") {
 		alert('삭제가 완료되었습니다.');
+	} else if(msg == "regSuccess") {
+		alert('질문 등록이 완료되었습니다.')
 	}
 	
 /*

@@ -1,5 +1,6 @@
 package com.spring.myWeb.quiz.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.spring.myWeb.command.AnswerVO;
@@ -11,7 +12,7 @@ public interface IAnswerService {
 	void regist(AnswerVO vo);
 
 	// 답변 목록
-	Map<String, Object> getList(int quizNum, QuizPageVO paging);
+	List<AnswerVO> getList(int quizNum, QuizPageVO paging);
 
 	// 답변 수정
 	void modify(AnswerVO vo);

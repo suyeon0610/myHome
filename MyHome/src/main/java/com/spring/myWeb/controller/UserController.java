@@ -1,5 +1,7 @@
 package com.spring.myWeb.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -71,6 +73,12 @@ public class UserController {
 		} else {
 			return "/user/loginfail";
 		}
+	}
+	
+	// 마이페이지
+	@GetMapping("/mypage")
+	public void getMypage() {
+		System.out.println("/user/mypage: GET");
 	}
 
 }

@@ -47,9 +47,7 @@
 					<thead>
 						<tr>
 							<th width="30%">글쓴이</th>
-							<td width="70%"><input type="text" name="writer"
-								value="${article.writer }" readonly="readonly"
-								style="width: 100%"></td>
+							<td width="70%"><input type="text" name="writer" value="${article.writer }" readonly="readonly" style="width: 100%"></td>
 						</tr>
 						<tr>
 							<th style="padding-bottom: 15px;">제목</th>
@@ -64,9 +62,9 @@
 					</thead>
 					<tbody>
 						<tr height="200" valign="top" style="background-color: #fff;">
-							<td colspan="4"><c:if test="${article.fileLoca != null }">
-									<img alt="가구 이미지" src="/img/${article.fileLoca }" width="100"
-										height="100">
+							<td colspan="4">
+								<c:if test="${article.fileLoca != null }">
+									<img alt="가구 이미지" src="/img/${article.fileLoca }" width="100" height="100">
 								</c:if> ${article.content }</td>
 						</tr>
 						<tr>
@@ -94,8 +92,8 @@
 								<div class="btn-group btn-group-sm " style="margin-left: 69%;"
 									role="group" aria-label="...">
 									<input type="submit" class="btn btn-info btns" value="수정">
-									<input type="button" class="btn btn-info btns" id="delBtn" value="삭제"> 
-									<input type="button" class="btn btn-info btns" id="listBtn" value="목록">
+									<input type="button" id="delBtn" class="btn btn-info btns"  value="삭제"> 
+									<input type="button" id="listBtn" class="btn btn-info btns"  value="목록">
 								</div>
 							</td>
 						</tr>
@@ -113,17 +111,12 @@
 			<div class="col-xs-12 col-md-12 write-wrap">
 				<div class="reply-wrap">
 					<div class="reply-image">
-						<img
-							src="${pageContext.request.contextPath}/resources/img/icon.png"
-							alt="prof" class="userimg">
+						<img src="${pageContext.request.contextPath}/resources/img/icon.png" alt="prof" class="userimg">
 					</div>
 					<div class="reply-content">
 						<div class="reply-group clearfix">
-							<div class="reply-user">
-								<strong class="left">글쓴이</strong>
-							</div>
-							<textarea class="form-control" rows="3" placeholder="댓글을 작성해주세요"></textarea>
-							<button class="btn btn-info">등록</button>
+							<textarea class="form-control" id="replyContent" name="content" rows="3" placeholder="댓글을 작성해주세요"></textarea>
+							<button type="button" id="replyRegBtn" class="btn btn-info">등록</button>
 							<button class="btn btn-info">
 								<svg width="24" height="20" viewBox="0 0 24 20"
 									preserveAspectRatio="xMidYMid meet">
@@ -137,34 +130,46 @@
 					</div>
 
 				</div>
-				<div class="reply-wrap">
-					<div class="reply-image">
-						<img
-							src="${pageContext.request.contextPath}/resources/img/icon.png"
-							alt="prof" class="userimg">
-					</div>
-					<div class="reply-content">
-						<div class="reply-group">
-							<strong class="left">글쓴이</strong> <small class="left">2021/12/12</small>
-
-
-							<div class="btn-group-sm" role="group">
-								<button type="button" class="btn btn-info">삭제</button>
-								<button type="button" class="btn btn-info">수정</button>
-							</div>
-
+				
+				<div id="reply-list">
+				
+					<!-- ajax로 작성할 태그(답변) -->
+					<!--   
+					<div class="reply-wrap">
+						<div class="reply-image">
+							<img src="${pageContext.request.contextPath}/resources/img/icon.png" alt="prof" class="userimg">
 						</div>
-						<p>여기는 댓글 영역</p>
+						<form action="/answer/answerModify" method="post">
+							<div class="reply-content">
+								<div class="reply-group">
+									<strong class="left">글쓴이</strong>
+									<small class="left"><fmt:formatDate value="${article.regDate}" pattern="yyyy-MM-dd"/></small>
+									<div class="btn-group-sm" role="group">
+										<button type="button" class="btn btn-info">삭제</button>
+										<a href="#" class="btn btn-info">수정</a>
+									</div>
+								</div>
+								<p>여기는 댓글 영역</p>
+							</div>
+						</form>							
 					</div>
+					-->
+					
 				</div>
 			</div>
 		</div>
-		<nav class="pagination-sm pag">
+		
+		<nav id ='answerPage' class="pagination-sm pag">
+		
+		<!-- ajax로 작성(페이징) -->
+			<!--  
 			<ul class="pagination justify-content: center">
 				<li class="page-item"><a class="page-link" href="#"> 이전 </a></li>
 				<li class="page-item"><a class="page-link" href="#"> 1 </a></li>
 				<li class="page-item"><a class="page-link" href="#"> 다음 </a></li>
 			</ul>
+			-->
+			
 		</nav>
 	</div>
 
@@ -174,28 +179,180 @@
 </body>
 
 <script>
-	// start JQuery
-	$(function() {
 
-		// 목록 버튼 클릭
-		$("#listBtn").click(function() {
-			location.href = "<c:url value='/quiz/quizList?pageNum=${pageNum}' />";
+	//jQuery start
+	$(function() {
+	
+		//목록 버튼 클릭
+		$('#listBtn').click(function() {
+			location.href = "<c:url value='/quiz/quizList?pageNum=${pageNum}' />"			
 		});
 		
-		// 삭제 버튼 클릭
-		$("#delBtn").click(function() {
-			
-			cosnt result = confirm('정말 삭제 하시겠습니까?');
+		//삭제 버튼 클릭
+		$('#delBtn').click(function() {
+			const result = confirm('정말 삭제 하시겠습니까?');
 			
 			if(result) {
-				$('#quizDetailForm').attr('action', '<c:url value="/quiz/quizDelete?quizNum=${article.quizNum}" />');
-				$('#quizDetailForm').attr('method', 'post');				
+				$('#quizDetailForm').attr('action', '<c:url value="/quiz/quizDelete?quizNum=${article.quizNum}&pageNum=${pageNum}" />');
+				$('#quizDetailForm').attr('method', 'post')
+				$('#delBtn').attr('type', 'submit');				
+			}
+		});
+		
+		// 댓글 등록
+		$('#replyRegBtn').click(function() {
+			const content = $('#replyContent').val();
+			const writer = '${article.writer}';
+			const quizNum = '${article.quizNum}';
+			
+			if(content === '') {
+				alert('댓글을 입력해 주세요.');
+			} else {
+				
+				const reInfo = {
+					'writer' : writer,
+					'content' : content,
+					'quizNum' : quizNum
+				};
+				
+				// 댓글 등록 비동기
+				$.ajax({
+					type : "POST",
+					url : "<c:url value='/answer/answerRegist' />",
+					headers : {
+						"Content-Type" : "application/json"
+					},
+					dataType : "text",
+					data : JSON.stringify(reInfo),
+					success : function(result) {
+						console.log('통신 성공!');
+						if (result === 'regSuccess') {
+							console.log('댓글 등록 성공!');
+							$('#replyContent').val('');
+						} else {
+							console.log('댓글 등록 실패!');
+						}
+					},
+					error : function() {
+						console.log('통신 실패!');
+					}
+					
+				}); // 댓글 등록 비동기 끝
 			}
 			
-			
-		});
+		}); // 댓글 등록 끝
 
-	});
+		// 댓글 목록
+		let strAdd = "";
+		let pStrAdd = "";
+		
+		getList(1, true);
+		
+		// reset: 화면 리셋 여부(boolean)
+		function getList(pageNum, reset) {
+			
+			const quizNum = '${article.quizNum}';
+			console.log(quizNum);
+			
+			$.getJSON(
+				"<c:url value='/answer/answerList/" + quizNum + "'/>",
+				function(data) {
+					
+					let list = data.list;
+					let qpc = data.qpc;
+					
+					if(reset === true) {
+						strAdd = '';
+					}
+					
+					for(let i=0; i<list.length; i++) {
+						strAdd += "<div class='reply-wrap'>";
+						strAdd += "<div class='reply-image'>";
+						strAdd += "<img src='${pageContext.request.contextPath}/resources/img/icon.png' alt='prof' class='userimg'>";
+						strAdd += "</div>";
+						strAdd += "<div class='reply-content'>"
+						strAdd += "<div class='reply-group'>";
+						strAdd += "<strong class='left'>" + list[i].writer + "</strong>";
+						strAdd += "<small class='left'>" + list[i].regDate + "</small>"
+						strAdd += "<div class='btn-group-sm' role='group'>";
+						strAdd += "<a href='" + list[i].answerNum + "' class='btn btn-info delReply'>삭제</a>";
+						strAdd += "<a href='" + list[i].answerNum + "' class='btn btn-info'>수정</a>";
+						strAdd += "</div>";
+						strAdd += "</div>";
+						strAdd += "<p>" + list[i].content + "</p>";
+						strAdd += "</div>"
+						strAdd += "</div>"
+					}
+					
+					$('#reply-list').html(strAdd);
+					
+					if(data.list > 0) {
+						pStrAdd += "<ul class='pagination justify-content: center'>";
+						
+						if(qpc.prev) {
+							pStrAdd += "<li class='page-item'><a class='page-link' href='#'> 이전 </a></li>"
+						}
+						
+						for(let j=qpc.beginPage; j<=qpc.endPage; j++) {
+							pStrAdd += "<li class='page-item'><a class='page-link' href='#'>" + j + "</a></li>"
+						}
+						
+						if(qpc.next) {
+							pStrAdd += "<li class='page-item'><a class='page-link' href='#'> 다음 </a></li>"
+						}
+						
+						pStrAdd += "</ul>";
+						
+						$('#answerPage').html(pStrAdd);
+					}
+				} // 통신 성공 시 함수
+
+			); // json end
+			
+		} // 댓글 목록 함수
+		
+		// 댓글 수정, 삭제
+		$('#reply-list').on('click', 'a', function() {
+			
+			const answerNum = $(this).attr('href');
+			
+			// 댓글 삭제
+			if($(this).hasClass(delReply)) {
+				
+				const delResult = confirm('댓글을 삭제하시겠습니까?');
+				
+				if(delResult) {
+					$.ajax({
+						type : "POST",
+						url : "<c:url value='/answer/answerDelete' />",
+						headers : {
+							"Content-Type" : "application/json"
+						},
+						dataType : "text",
+						data : {
+							answer : answer
+						},
+						success : function(result) {
+							if(result === 'delSuccess') {
+								console.log('댓글 삭제 성공!');
+							} else{
+								console.log('댓글 삭제 실패!');
+							}
+						},
+						error : function() {
+							console.log('통신 실패!');
+						}
+						
+					}); // 댓글 삭제 비동기
+				}
+				
+			} // 댓글 삭제
+			
+		}); // 댓글 수정, 삭제
+		
+		
+	}); //jQuery end
+
 </script>
 
 </html>

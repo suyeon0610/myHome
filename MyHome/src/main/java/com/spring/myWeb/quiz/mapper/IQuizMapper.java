@@ -24,5 +24,8 @@ public interface IQuizMapper {
 
 	// 글 삭제
 	void delete(int quizNum);
+	
+	// 조회수
+	void updateCnt(int quizNum);
 
 }

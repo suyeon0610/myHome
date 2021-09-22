@@ -74,12 +74,5 @@
 
 </body>
 
-<script>
-
-	const msg = "${msg}";
-	if(msg === 'regSuccess') {
-		alert('질문 등록이 완료되었습니다.');
-	}
-</script>
 
 </html>

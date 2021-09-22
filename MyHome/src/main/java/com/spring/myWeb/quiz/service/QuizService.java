@@ -44,5 +44,10 @@ public class QuizService implements IQuizService {
 	public int getTotalCount() {
 		return mapper.getTotalCount();
 	}
+	
+	@Override
+	public void updateCnt(int quizNum) {
+		mapper.updateCnt(quizNum);
+	}
 
 }

@@ -1,5 +1,7 @@
 package com.spring.myWeb.quiz.service;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,32 +19,31 @@ public class AnswerService implements IAnswerService {
 	
 	@Override
 	public void regist(AnswerVO vo) {
-		// TODO Auto-generated method stub
-
+		mapper.regist(vo);
 	}
 
 	@Override
-	public Map<String, Object> getList(int quizNum, QuizPageVO paging) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<AnswerVO> getList(int quizNum, QuizPageVO paging) {
+		Map<String, Object> datas = new HashMap<>();
+		datas.put("quizNum", quizNum);
+		datas.put("paging", paging);
+	
+		return mapper.getList(datas);
 	}
 
 	@Override
 	public void modify(AnswerVO vo) {
-		// TODO Auto-generated method stub
-
+		mapper.modify(vo);
 	}
 
 	@Override
 	public void delete(int answerNum) {
-		// TODO Auto-generated method stub
-
+		mapper.delete(answerNum);
 	}
 
 	@Override
 	public int getTotalCount(int quizNum) {
-		// TODO Auto-generated method stub
-		return 0;
+		return mapper.getTotalCount(quizNum);
 	}
 
 }

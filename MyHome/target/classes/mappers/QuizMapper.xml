@@ -52,5 +52,11 @@
   		DELETE FROM quiz
   		WHERE quiz_num = #{quizNum}
   	</delete>
+  	
+  	<update id="updateCnt">
+  		UPDATE quiz
+  		SET views = views + 1
+  		WHERE quiz_num = #{quizNum}
+  	</update>
 
 </mapper>

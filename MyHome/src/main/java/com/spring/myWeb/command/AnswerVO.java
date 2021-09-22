@@ -2,8 +2,11 @@ package com.spring.myWeb.command;
 
 import java.sql.Timestamp;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /*
 -- answer 테이블 생성(pk 설정)
@@ -31,6 +34,9 @@ CREATE SEQUENCE answer_seq
 
 @Getter
 @Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class AnswerVO {
 
 	private int answerNum;
