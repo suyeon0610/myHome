@@ -24,14 +24,12 @@ public class AnswerMapperTest {
 	@Test
 	public void registTest() {
 		
-		for(int i=1; i<=5; i++) {
-			for(int j=1; j<=10; j++) {
-				AnswerVO vo = new AnswerVO();
-				vo.setQuizNum(i);
-				vo.setWriter("김댓글" + i + "-" + j);
-				vo.setContent("테스트 댓글" + i + "-" + j);
-				mapper.regist(vo);
-			}
+		for(int i=1; i<=50; i++) {
+			AnswerVO vo = new AnswerVO();
+			vo.setQuizNum(334);
+			vo.setWriter("김댓글" + i);
+			vo.setContent("테스트 댓글" + i);
+			mapper.regist(vo);
 		}
 		
 		System.out.println("댓글 등록이 완료되었습니다.");

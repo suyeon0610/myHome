@@ -10,7 +10,7 @@ public interface IQuizService {
 	// 글 등록
 	void regist(QuizVO vo);
 
-	// 글 조회
+	// 글 상세보기
 	QuizVO getDetail(int quizNum);
 
 	// 글 전체 조회

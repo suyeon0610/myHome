@@ -12,6 +12,13 @@
 		<result property="fileLoca" column="file_loca"/>
 	</resultMap>
 	
+	<sql id="search">
+		<if test="#{condition} == 'title'">WHERE title LIKE #{keyword}</if>
+		<if test="#{condition} == 'writer'">WHERE writer LIKE #{keyword}</if>
+		<if test="#{condition} == 'content'">WHERE content LIKE #{keyword}</if>
+		<if test="#{condition} == 'titleContent'">WHERE title LIKE #{keyword} OR content LIKE #{keyword}</if>
+	</sql>
+	
 	<insert id="regist">
   		INSERT INTO quiz(quiz_num, writer, title, content, type, file_loca)
  		VALUES(quiz_seq.NEXTVAL, #{writer}, #{title}, #{content}, #{type}, #{fileLoca} )
@@ -24,6 +31,7 @@
 	  		FROM
 	 		( 	
 		  		SELECT * FROM quiz
+		  		<include refid="search" />
 		  		ORDER BY quiz_num DESC
 	  		) tbl
   		)

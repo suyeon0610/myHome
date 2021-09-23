@@ -30,8 +30,13 @@
 
 .pag {
     margin-top: 10px;
-    margin-left: 35%;
+   
 }
+ul {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
 
 .userimg {
@@ -93,4 +98,8 @@
     text-decoration: none;
     color: #777;
     float: right;
+}
+.btcon{
+    float: right;
+    margin-bottom: 20px;
 }

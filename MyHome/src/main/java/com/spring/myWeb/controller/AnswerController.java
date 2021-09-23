@@ -33,11 +33,12 @@ public class AnswerController {
 		return "regSuccess";
 	} 
 	
-	@GetMapping("/answerList/{quizNum}")
-	public Map<String, Object> getList(@PathVariable int quizNum) {
+	@GetMapping("/answerList/{quizNum}/{pageNum}")
+	public Map<String, Object> getList(@PathVariable int quizNum, @PathVariable int pageNum) {
 		System.out.println("/answer/answerList: GET");
 		
 		QuizPageVO paging = new QuizPageVO();
+		paging.setPageNum(pageNum);
 		paging.setCountPerPage(5);
 		
 		QuizPageCreator qpc = new QuizPageCreator();

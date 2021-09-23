@@ -27,6 +27,21 @@ public class QuizService implements IQuizService {
 
 	@Override
 	public List<QuizVO> getList(QuizPageVO paging) {
+		
+		String keyword = paging.getKeyword();
+		String condition = paging.getCondition();
+		
+		if(condition == null) {
+			condition = "";
+		}
+		
+		if(keyword == null) {
+			keyword = "";
+		} else {
+			keyword = '%' + keyword + '%';
+			paging.setKeyword(keyword);			
+		}
+		
 		return mapper.getList(paging);
 	}
 

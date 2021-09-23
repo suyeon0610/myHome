@@ -17,7 +17,7 @@ content VARCHAR2(2000) NOT NULL,
 type VARCHAR2(50), --질문 유형
 reg_date DATE DEFAULT SYSDATE,
 update_date DATE DEFAULT NULL,
-file_path VARCHAR2(100),
+file_loca VARCHAR2(100),
 views NUMBER DEFAULT 0,
 constraint quiz_pk primary key(quiz_num)
 );

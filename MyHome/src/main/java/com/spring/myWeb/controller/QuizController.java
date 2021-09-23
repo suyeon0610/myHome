@@ -38,16 +38,15 @@ public class QuizController {
 
 	// q&a 목록 요청
 	@GetMapping("/quizList")
-	public void getList(Model model, @RequestParam int pageNum) {
+	public void getList(Model model, QuizPageVO vo) {
 		System.out.println("quiz/quizList: GET");
-
-		QuizPageVO page = new QuizPageVO();
-		page.setPageNum(pageNum);
+		System.out.println("조건: " + vo.getCondition());
+		System.out.println("키워드: " + vo.getKeyword());
 		
-		List<QuizVO> list = service.getList(page);
+		List<QuizVO> list = service.getList(vo);
 		
 		QuizPageCreator qpc = new QuizPageCreator();
-		qpc.setPage(page);
+		qpc.setPage(vo);
 		qpc.setPageTotalCount(service.getTotalCount());
 		
 		model.addAttribute("articles", list);
@@ -59,7 +58,6 @@ public class QuizController {
 	public String article(@PathVariable int quizNum, Model model,
 							@ModelAttribute("pageNum") int pageNum) {
 		System.out.println("/quiz/detail: GET");
-		
 		
 		service.updateCnt(quizNum);
 		model.addAttribute("article", service.getDetail(quizNum));
