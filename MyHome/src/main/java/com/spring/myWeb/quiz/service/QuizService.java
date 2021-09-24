@@ -26,23 +26,21 @@ public class QuizService implements IQuizService {
 	}
 
 	@Override
-	public List<QuizVO> getList(QuizPageVO paging) {
+	public List<QuizVO> getList(QuizPageVO page) {
+		List<QuizVO> list = mapper.getList(page);
 		
-		String keyword = paging.getKeyword();
-		String condition = paging.getCondition();
-		
-		if(condition == null) {
-			condition = "";
+		for(QuizVO vo : list) {
+			long today = System.currentTimeMillis();
+			long regDate = vo.getRegDate().getTime();
+			
+			if((today - regDate) < 60*60*1000) {
+				vo.setNewMark(true);
+			} else {
+				vo.setNewMark(false);
+			}
 		}
 		
-		if(keyword == null) {
-			keyword = "";
-		} else {
-			keyword = '%' + keyword + '%';
-			paging.setKeyword(keyword);			
-		}
-		
-		return mapper.getList(paging);
+		return list;
 	}
 
 	@Override
@@ -56,13 +54,13 @@ public class QuizService implements IQuizService {
 	}
 
 	@Override
-	public int getTotalCount() {
-		return mapper.getTotalCount();
+	public int getTotalCount(QuizPageVO page) {
+		return mapper.getTotalCount(page);
 	}
 	
 	@Override
 	public void updateCnt(int quizNum) {
 		mapper.updateCnt(quizNum);
 	}
-
+	
 }

@@ -22,4 +22,5 @@ public interface IAnswerMapper {
 
 	// 답변 게시글 수
 	int getTotalCount(int quizNum);
+
 }

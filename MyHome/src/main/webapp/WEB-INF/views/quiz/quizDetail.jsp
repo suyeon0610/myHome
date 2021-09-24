@@ -147,7 +147,7 @@
 	
 		//목록 버튼 클릭
 		$('#listBtn').click(function() {
-			location.href = "<c:url value='/quiz/quizList?pageNum=${pageNum}' />"			
+			location.href = "<c:url value='/quiz/quizList?pageNum=${page.pageNum}&condition=${page.condition}&keyword=${page.keyword}&sort=${page.sort }' />"			
 		});
 		
 		//삭제 버튼 클릭
@@ -155,7 +155,7 @@
 			const result = confirm('정말 삭제 하시겠습니까?');
 			
 			if(result) {
-				$('#quizDetailForm').attr('action', '<c:url value="/quiz/quizDelete?quizNum=${article.quizNum}&pageNum=${pageNum}" />');
+				$('#quizDetailForm').attr('action', '<c:url value="/quiz/quizDelete?quizNum=${article.quizNum}&pageNum=${page.pageNum}" />');
 				$('#quizDetailForm').attr('method', 'post')
 				$('#delBtn').attr('type', 'submit');				
 			}

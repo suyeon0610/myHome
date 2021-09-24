@@ -10,13 +10,14 @@
 		<result property="regDate" column="reg_date" />
 		<result property="updateDate" column="update_date" />
 		<result property="fileLoca" column="file_loca"/>
+		<result property="answerCnt" column="answer_cnt"/>
 	</resultMap>
-	
+		
 	<sql id="search">
-		<if test="#{condition} == 'title'">WHERE title LIKE #{keyword}</if>
-		<if test="#{condition} == 'writer'">WHERE writer LIKE #{keyword}</if>
-		<if test="#{condition} == 'content'">WHERE content LIKE #{keyword}</if>
-		<if test="#{condition} == 'titleContent'">WHERE title LIKE #{keyword} OR content LIKE #{keyword}</if>
+		<if test="condition == 'title'">WHERE title LIKE '%'||#{keyword}||'%'</if>
+		<if test="condition == 'writer'">WHERE writer LIKE '%'||#{keyword}||'%'</if>
+		<if test="condition == 'content'">WHERE content LIKE '%'||#{keyword}||'%'</if>
+		<if test="condition == 'titleContent'">WHERE title LIKE #{keyword} OR content LIKE '%'||#{keyword}||'%'</if>
 	</sql>
 	
 	<insert id="regist">
@@ -26,13 +27,28 @@
 	
 	<select id="getList" resultMap="QuizMap">
   		SELECT *
-		FROM(  	
+		FROM( 
 	  		SELECT ROWNUM as rn, tbl.*
 	  		FROM
 	 		( 	
-		  		SELECT * FROM quiz
-		  		<include refid="search" />
-		  		ORDER BY quiz_num DESC
+				select quiz.*, answer_cnt
+				from quiz 
+				left join 
+				(
+				select quiz_num, count(*) as answer_cnt
+				from answer
+				group by quiz_num
+				) ans
+				on quiz.quiz_num = ans.quiz_num
+				<include refid="search" />
+				<choose>		
+					<when test="sort == 'popul'">
+						ORDER BY answer_cnt DESC nulls last, quiz.quiz_num DESC
+		 			</when>
+		 			<otherwise>
+		 				ORDER BY quiz.quiz_num DESC
+		 			</otherwise>
+	 			</choose>
 	  		) tbl
   		)
   		<![CDATA[
@@ -48,6 +64,7 @@
   	
   	<select id="getTotalCount" resultType="int">
   		SELECT COUNT(*) FROM quiz
+  		<include refid="search" />
   	</select>
   	
   	<update id="modify">

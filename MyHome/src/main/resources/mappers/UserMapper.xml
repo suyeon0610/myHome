@@ -30,7 +30,7 @@
     
     <update id="userUpdate">
     	UPDATE users
-    	SET pw=#{pw}, nick_name=#{nickName}, phone1=#{phone1}, phone2=#{phone2}, phone3=#{phone3}, grade=#{grade}, interest=#{interest}, addr_basic=#{addrBasic}, addr_detail=#{addrDetail}, zip_num=#{zipNum}, major=#{major}, profile=#{profile}, scrap=#{scrap}
+    	SET nick_name=#{nickName}, phone1=#{phone1}, phone2=#{phone2}, phone3=#{phone3}, interest=#{interest}, addr_basic=#{addrBasic}, addr_detail=#{addrDetail}, zip_num=#{zipNum}, major=#{major}, profile=#{profile}
 		WHERE id=#{id}    	
     </update>
  
@@ -45,6 +45,19 @@
 		WHERE id = #{id}
 		AND pw = #{pw}
 	</select>
-
+	
+	<!-- 회원 정보&게시글 -->
+	<select id="userInfo">
+		SELECT * FROM users
+		WHERE id = #{id}
+	</select>
+	
+	<!-- 질문/답변 -->
+	<select id="">
+		SELECT *
+		FROM quiz
+		WHERE writer = #{nickName}
+	</select>
+	
 
 </mapper>

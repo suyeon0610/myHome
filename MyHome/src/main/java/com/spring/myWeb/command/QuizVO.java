@@ -46,5 +46,7 @@ public class QuizVO {
 	private int views;
 	private Timestamp regDate;
 	private Timestamp updateDate;
+	private int answerCnt;
+	private boolean newMark;
 
 }

@@ -19,5 +19,8 @@ public interface IUserMapper {
 
 	// 로그인
 	UserVO userLogin(String id, String pw);
+	
+	// 
+	
 
 }

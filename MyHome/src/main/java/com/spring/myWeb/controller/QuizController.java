@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.myWeb.command.QuizVO;
+import com.spring.myWeb.quiz.mapper.IAnswerMapper;
 import com.spring.myWeb.quiz.service.IQuizService;
 import com.spring.myWeb.quiz.util.QuizPageCreator;
 import com.spring.myWeb.quiz.util.QuizPageVO;
@@ -35,19 +36,23 @@ public class QuizController {
 
 	@Autowired
 	private IQuizService service;
+	
 
-	// q&a 목록 요청
+	// 질문 목록 요청
 	@GetMapping("/quizList")
 	public void getList(Model model, QuizPageVO vo) {
 		System.out.println("quiz/quizList: GET");
+		/*
 		System.out.println("조건: " + vo.getCondition());
 		System.out.println("키워드: " + vo.getKeyword());
-		
+		System.out.println("정렬 기준: " + vo.getSort());
+		*/
+		System.out.println(vo);
 		List<QuizVO> list = service.getList(vo);
 		
 		QuizPageCreator qpc = new QuizPageCreator();
 		qpc.setPage(vo);
-		qpc.setPageTotalCount(service.getTotalCount());
+		qpc.setPageTotalCount(service.getTotalCount(vo));
 		
 		model.addAttribute("articles", list);
 		model.addAttribute("paging", qpc);
@@ -56,7 +61,7 @@ public class QuizController {
 	// 질문 상세보기 화면 요청
 	@GetMapping("/quizDetail/{quizNum}")
 	public String article(@PathVariable int quizNum, Model model,
-							@ModelAttribute("pageNum") int pageNum) {
+							@ModelAttribute("page") QuizPageVO page) {
 		System.out.println("/quiz/detail: GET");
 		
 		service.updateCnt(quizNum);
@@ -131,7 +136,7 @@ public class QuizController {
 				
 			}
 			
-			QuizVO vo = new QuizVO(0, writer, title, content, type, fileLoca, 0, null, null);
+			QuizVO vo = new QuizVO(0, writer, title, content, type, fileLoca, 0, null, null, 0, false);
 			service.regist(vo);
 
 		} catch (Exception e) {

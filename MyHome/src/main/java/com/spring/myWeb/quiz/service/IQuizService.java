@@ -14,10 +14,10 @@ public interface IQuizService {
 	QuizVO getDetail(int quizNum);
 
 	// 글 전체 조회
-	List<QuizVO> getList(QuizPageVO paging);
+	List<QuizVO> getList(QuizPageVO page);
 
 	// 총 게시물 수
-	int getTotalCount();
+	int getTotalCount(QuizPageVO page);
 
 	// 글 수정
 	void modify(QuizVO vo);
@@ -27,5 +27,5 @@ public interface IQuizService {
 	
 	// 조회수
 	void updateCnt(int quizNum);
-
+	
 }
