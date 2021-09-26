@@ -1,5 +1,7 @@
 package com.spring.myWeb.user.mapper;
 
+import java.util.Map;
+
 import com.spring.myWeb.command.UserVO;
 
 public interface IUserMapper {
@@ -15,12 +17,10 @@ public interface IUserMapper {
 	void userUpdate(UserVO vo);
 
 	// 회원탈퇴
-	void userDelete(String id, String pw);
+	void userDelete(Map<String, Object> data);
 
 	// 로그인
 	UserVO userLogin(String id, String pw);
-	
-	// 
 	
 
 }

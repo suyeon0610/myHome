@@ -22,7 +22,6 @@
         <result column="scrap" property="scrap" />
      </resultMap>
 
-
 	<insert id="userJoin">
         insert into users(id, pw, nick_name, phone1, phone2, phone3, grade, interest, addr_basic, addr_detail, zip_num, major, profile, scrap)
         values (#{id}, #{pw}, #{nickName}, #{phone1}, #{phone2}, #{phone3}, #{grade, jdbcType=VARCHAR}, #{interest, jdbcType=VARCHAR}, #{addrBasic}, #{addrDetail, jdbcType=VARCHAR}, #{zipNum}, #{major, jdbcType=VARCHAR}, #{profile, jdbcType=VARCHAR}, #{scrap, jdbcType=VARCHAR})
@@ -30,7 +29,7 @@
     
     <update id="userUpdate">
     	UPDATE users
-    	SET nick_name=#{nickName}, phone1=#{phone1}, phone2=#{phone2}, phone3=#{phone3}, interest=#{interest}, addr_basic=#{addrBasic}, addr_detail=#{addrDetail}, zip_num=#{zipNum}, major=#{major}, profile=#{profile}
+    	SET phone1=#{phone1}, phone2=#{phone2}, phone3=#{phone3}, interest=#{interest}, addr_basic=#{addrBasic}, addr_detail=#{addrDetail}, zip_num=#{zipNum}, major=#{major}, profile=#{profile}
 		WHERE id=#{id}    	
     </update>
  

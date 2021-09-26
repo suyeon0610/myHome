@@ -1,5 +1,8 @@
 package com.spring.myWeb.user.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +32,11 @@ public class UserService implements IUserService {
 
 	@Override
 	public void userDelete(String id, String pw) {
-		mapper.userDelete(id, pw);
+		Map<String, Object> data = new HashMap<>();
+		data.put("id", id);
+		data.put("pw", pw);
+		
+		mapper.userDelete(data);
 	}
 
 	@Override

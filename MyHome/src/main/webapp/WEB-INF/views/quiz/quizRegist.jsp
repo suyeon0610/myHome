@@ -59,7 +59,11 @@
                     <tbody>
                         <tr>
                             <td colspan="2"> 
-                            	<textarea class="form-control" rows="10" name="content" placeholder="글을 적어 주세요."></textarea>
+                            	<div contentEditable="true" style="overflow:auto">
+                            		<div id='preview'>
+                            		 <!-- 사진 미리보기 공간 -->
+                            		</div>
+                            	</div>
                                 <input multiple="multiple" type="file" name="file">
                             </td>
                         </tr>

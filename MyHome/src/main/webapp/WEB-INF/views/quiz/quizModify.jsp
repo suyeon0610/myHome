@@ -70,7 +70,7 @@
 					<tbody>
 						<tr>
 							<td colspan="2">
-								<textarea class="form-control" rows="10" name="content">${article.content }</textarea>
+								<textarea class="form-control" rows="10" name="content">${article.content}</textarea>
 								<input type="file" name="file">
 							</td>
 						</tr>
@@ -83,12 +83,11 @@
 		</div>
 	</form>
 
-
-
-
-
-
-
 </body>
+
+	<script>
+		
+	
+	</script>
 
 </html>

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.myWeb.command.UserVO;
@@ -89,14 +90,18 @@ public class UserController {
 	
 	// 회원 정보 수정 요청
 	@PostMapping("/userUpdate")
-	public void update() {
+	public void update(UserVO vo) {
+		System.out.println("/user/userUpdate: POST");
 		
+		service.userUpdate(vo);
 	}
 	
 	// 회원 정보 탈퇴 요청
 	@PostMapping("/userDelete")
-	public void delete() {
+	public void delete(@RequestParam String id, @RequestParam String pw) {
+		System.out.println("/user/userDelete: POST");
 		
+		service.userDelete(id, pw);
 	}
 
 }

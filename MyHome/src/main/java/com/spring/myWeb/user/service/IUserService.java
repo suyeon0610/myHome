@@ -1,5 +1,7 @@
 package com.spring.myWeb.user.service;
 
+import java.util.Map;
+
 import com.spring.myWeb.command.UserVO;
 
 public interface IUserService {
