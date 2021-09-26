@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.myWeb.command.UserVO;
 import com.spring.myWeb.user.service.UserService;
@@ -49,19 +51,40 @@ public class UserController {
 		service.userJoin(vo);
 		return "user/loginPage";
 	}
+	
+	// 회원정보 수정화면 요청
+	@GetMapping("/userModify")
+	public void userModify(HttpSession session, Model model) {
+		System.out.println("/user/userModify: GET");
+		
+		String id = ((UserVO)session.getAttribute("user")).getId();
+		model.addAttribute("userInfo", service.userInfo(id));
+		
+	}
 
-	//회원정보수정요청
-	@PostMapping("/userUpdate")
+	// 회원정보수정요청
+	@PostMapping("/userModify")
 	public void userUpdate(UserVO vo) {
-		System.out.println("회원정보수정요청");
+		System.out.println("/user/userModify: POST");
 		service.userUpdate(vo);
 	}
 
 	//회원탈퇴요청
 	@PostMapping("/userDelete")
-	public void userDelete(@Param("id")String id, @Param("pw")String pw) {
-		System.out.println("회원탈퇴요청");
-		service.userDelete(id, pw);
+	public String userDelete(@Param("id")String id, @Param("pw")String pw,
+								RedirectAttributes ra, HttpSession session) {
+		System.out.println("/user/userDelete: POST");
+		
+		int pwCheck = service.pwCheck(id, pw);
+		if(pwCheck == 1) {
+			service.userDelete(id);
+			session.invalidate();
+			ra.addFlashAttribute("msg", "delSuccess");
+			return "redirect:/";
+		} else {
+			ra.addFlashAttribute("msg", "delFail");
+			return "redirect:/user/mypage";
+		}		
 	}
 
 	//로그인페이지이동
@@ -137,6 +160,15 @@ public class UserController {
 		String code = Integer.toString(checkNum);
 		System.out.println(code);
 		return code;
+	}
+	
+	// 마이페이지 요청
+	@GetMapping("/mypage")
+	public void getMypage(HttpSession session, Model model) {
+		System.out.println("/user/mypage: GET");
+		
+		String id = ((UserVO) session.getAttribute("user")).getId();
+		model.addAttribute("userInfo", service.userInfo(id));
 	}
 
 }

@@ -103,3 +103,8 @@ ul {
     float: right;
     margin-bottom: 20px;
 }
+.inimg{
+    width: 100%;
+    height: auto;
+    text-align: center;
+}

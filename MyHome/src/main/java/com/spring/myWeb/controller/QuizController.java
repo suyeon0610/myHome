@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.myWeb.command.QuizVO;
+import com.spring.myWeb.command.UserVO;
 import com.spring.myWeb.quiz.mapper.IAnswerMapper;
 import com.spring.myWeb.quiz.service.IQuizService;
 import com.spring.myWeb.quiz.util.QuizPageCreator;
@@ -73,17 +75,16 @@ public class QuizController {
 	@GetMapping("/quizRegist")
 	public void regist() {
 		System.out.println("/quiz/quizRegist: GET");
-
 	}
 
 	// 질문 등록 요청
 	@PostMapping("/quizRegist")
 	public String insert(@RequestParam("file") MultipartFile file, QuizVO article,
-							RedirectAttributes ra) {
+							HttpSession session, RedirectAttributes ra) {
 		System.out.println("/quiz/quizRegist: POST");
 
 		try {
-			String writer = "suyeon"; // session.id
+			String writer = ((UserVO)session.getAttribute("user")).getNickName(); // session.id
 			String content = article.getContent();
 			String title = article.getTitle();
 			String type = article.getType();

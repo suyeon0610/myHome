@@ -20,7 +20,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="profile" property="profile" />
         <result column="scrap" property="scrap" />
      </resultMap>
+     
+     <resultMap type="com.spring.myWeb.command.MyHomeVO" id="MyHomeList">
+     	
+     </resultMap>
  
+ 	<resultMap type="com.spring.myWeb.command.QuizVO" id="QuizList">
+ 		<id property="quizNum" column="quiz_num"/>
+ 		<result property="title" column="title"/>
+ 	</resultMap>
+ 	
     <insert id="userJoin">
         insert into users(id, pw, nick_name, phone1, phone2, phone3, grade, interest, addr_basic, addr_detail, zip_num, major, profile, scrap)
         values (#{id}, #{pw}, #{nickName}, #{phone1}, #{phone2}, #{phone3}, #{grade, jdbcType=VARCHAR}, #{interest, jdbcType=VARCHAR}, #{addrBasic}, #{addrDetail, jdbcType=VARCHAR}, #{zipNum}, #{major, jdbcType=VARCHAR}, #{profile, jdbcType=VARCHAR}, #{scrap, jdbcType=VARCHAR})
@@ -32,10 +41,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE id=#{id}    	
     </update>
  
- 	<delete id="userDelete">
- 		DELETE FROM users
+ 	<select id="pwCheck" resultType="int">
+ 		SELECT COUNT(*) 
+ 		FROM users
  		WHERE id=#{id}
  		AND pw=#{pw}
+ 	</select>
+ 	
+ 	<delete id="userDelete">
+ 		DELETE FROM users
+ 		WHERE id = #{id} 
  	</delete>
  	
  	<select id="userLogin" resultType="com.spring.myWeb.command.UserVO">

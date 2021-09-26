@@ -39,10 +39,14 @@ public class UserService implements IUserService {
 	}
 
 
-	//회원탈퇴
 	@Override
-	public void userDelete(@Param("id")String id, @Param("pw")String pw) {
-		mapper.userDelete(id, pw);
+	public int pwCheck(String id, String pw) {
+		return mapper.pwCheck(id, pw);
+	}
+	
+	@Override
+	public void userDelete(String id) {
+		mapper.userDelete(id);
 	}
 
 	@Override

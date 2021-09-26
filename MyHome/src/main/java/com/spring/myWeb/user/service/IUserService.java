@@ -16,8 +16,11 @@ public interface IUserService {
 	//회원정보 수정
 	void userUpdate(UserVO vo);
 	
-	//회원탈퇴
-	void userDelete(@Param("id") String id, @Param("pw") String pw);
+	// 비밀번호 확인
+	int pwCheck(@Param("id") String id, @Param("pw") String pw);
+	
+	// 회원탈퇴
+	void userDelete(String id);
 	
 	//로그인
 	UserVO userLogin(@Param("id") String id, @Param("pw") String pw);

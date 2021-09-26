@@ -51,6 +51,7 @@
 	                            <option value="writer">작성자</option>
 	                            <option value="content">내용</option>
 	                            <option value="titleContent">제목+내용</option>
+	                            <option value="type">카테고리</option>
 	                        </select>
 	                    </div>
 	                    <div id="#" class="my-2 col-md-4" style="border-radius: 50%;  position: relative; bottom:8px;"
@@ -98,7 +99,8 @@
 								<thead>
 									<tr style="background-color: #17a2b8;">
 										<th width="10%">번호</th>
-										<th width="50%">제목</th>
+										<th width="40%">제목</th>
+										<th width="10%">카테고리</th>
 										<th width="10%">작성자</th>
 										<th width="20%">작성일</th>
 										<th width="10%">조회수</th>
@@ -118,6 +120,7 @@
 															<span class="new">NEW!</span>
 														</c:if>
 													</td>
+													<td>${a.type}</td>
 													<td>${a.writer}</td>
 													<td><fmt:formatDate value="${a.regDate}" pattern="yyyy-MM-dd"/></td>
 													<td>${a.views}</td>
@@ -181,11 +184,6 @@
 	} else if(msg == "regSuccess") {
 		alert('질문 등록이 완료되었습니다.')
 	}
-	
-	var myDropdown = document.getElementById('myDropdown')
-	myDropdown.addEventListener('show.bs.dropdown', function () {
-	  // do something...
-	})
 /*
 	// start JQuery
 	$(function() {
