@@ -2,6 +2,7 @@ package com.spring.myWeb.controller;
 
 import java.io.File;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
@@ -22,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.myWeb.command.UserVO;
+import com.spring.myWeb.quiz.util.QuizPageCreator;
+import com.spring.myWeb.quiz.util.QuizPageVO;
 import com.spring.myWeb.user.service.UserService;
 
 @Controller
@@ -48,36 +51,36 @@ public class UserController {
 	}
 
 	//회원가입요청
-		@PostMapping("/userJoin")
-		public String join(UserVO vo, @RequestParam(required=false) MultipartFile file) {
-			System.out.println("회원가입요청");
-			try {
-				String fileRealName = file.getOriginalFilename(); //파일 정보
-				Long size = file.getSize(); //파일 사이즈
-				
-				System.out.println("파일명: " + fileRealName);
-				System.out.println("사이즈: " + size);
-				
-				//서버에서 저장할 파일 이름
-				String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
-				String uploadFolder = "C:\\test\\upload";
-				
+	@PostMapping("/userJoin")
+	public String join(UserVO vo, @RequestParam(required=false) MultipartFile file) {
+		System.out.println("회원가입요청");
+		try {
+			String fileRealName = file.getOriginalFilename(); //파일 정보
+			Long size = file.getSize(); //파일 사이즈
+			
+			System.out.println("파일명: " + fileRealName);
+			System.out.println("사이즈: " + size);
+			
+			//서버에서 저장할 파일 이름
+			String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
+			String uploadFolder = "C:\\test\\upload";
+			
 //				UUID uuid = UUID.randomUUID();
 //				String[] uuids = uuid.toString().split("-");
 //				String uniqueName = uuids[0];
 //				System.out.println("생성된 고유 문자열: " + uniqueName);
 //				System.out.println("확장자명: " + fileExtension);
-				
-				File saveFile = new File(uploadFolder + "\\" + vo.getNickName() + fileExtension);
-				file.transferTo(saveFile); //실제 파일 저장 메서드 (fileWriter 작업을 손쉽게 한방에 처리해 줍니다.)
-				vo.setPaper(saveFile.toString());
-			} catch (Exception e) {
-				System.out.println("업로드 중 문제 발생!: " + e.getMessage());
-			}
-			service.userJoin(vo);
-
-			return "user/loginPage";
+			
+			File saveFile = new File(uploadFolder + "\\" + vo.getNickName() + fileExtension);
+			file.transferTo(saveFile); //실제 파일 저장 메서드 (fileWriter 작업을 손쉽게 한방에 처리해 줍니다.)
+			vo.setPaper(saveFile.toString());
+		} catch (Exception e) {
+			System.out.println("업로드 중 문제 발생!: " + e.getMessage());
 		}
+		service.userJoin(vo);
+
+		return "user/loginPage";
+	}
 	
 	// 회원정보 수정화면 요청
 	@GetMapping("/userModify")
@@ -91,9 +94,71 @@ public class UserController {
 
 	// 회원정보수정요청
 	@PostMapping("/userModify")
-	public void userUpdate(UserVO vo) {
+	public String userUpdate(UserVO vo, @RequestParam("file") MultipartFile file) {
 		System.out.println("/user/userModify: POST");
-		service.userUpdate(vo);
+		
+		try {
+			
+			 String id = vo.getId();
+			 String phone1 = vo.getPhone1();
+			 String phone2 = vo.getPhone2();
+			 String phone3 = vo.getPhone3();
+			 String interest = vo.getInterest();
+			 String addrBasic = vo.getAddrBasic();
+			 String addrDetail = vo.getAddrDetail();
+			 String zipNum = vo.getZipNum();
+			 
+			// 파일 저장 경로
+			//※경로를 resources로 잡르면 was 재실행 시 워크 스페이스 내용으로 바뀌면서 파일 자동 삭제 됨
+//			String resource = servletContext.getRealPath("/resources"); 
+			String path = "C:\\home\\quiz\\upload";
+			String profile = "";
+			
+			if(!file.isEmpty()) { // 업로드 파일이 있는 경우
+				
+				// 저장할 폴더 경로
+				String uploadPath = path + "\\" + id;
+				
+				File folder = new File(uploadPath);
+				if (!folder.exists()) {
+					folder.mkdir();
+				}
+				
+				// 서버에 저장할 파일 이름
+				String fileRealName = file.getOriginalFilename();
+				
+				// 파일명을 고유한 랜덤 문자로 작성 (중복 방지)
+				UUID uuid = UUID.randomUUID();
+				String[] uuids = uuid.toString().split("-");
+				String uniqueName = uuids[0];
+				
+				// 확장자
+				String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
+				
+				String fileName = uniqueName + fileExtension;
+				
+				// 파일 경로 + 이름
+				String filePath = uploadPath + "\\" + fileName;
+				
+				System.out.println(filePath);
+				
+				File saveFile = new File(filePath);
+				file.transferTo(saveFile);
+				
+				// sql에 저장할 파일 경로
+				profile = id + "/" + fileName;
+				
+			}
+			
+			UserVO user = new UserVO(id, null, null, phone1, phone2, phone3, null, interest, addrBasic, addrDetail, zipNum, null, profile, null, null, null);
+			service.userUpdate(user);
+
+		} catch (Exception e) {
+			System.out.println("※파일 업로드 중 오류 발생※");
+			e.printStackTrace();
+		}
+		
+		return "redirect:/user/mypage?type=home";
 	}
 
 	//회원탈퇴요청
@@ -130,7 +195,7 @@ public class UserController {
 			if(vo != null) {
 				System.out.println("로그인성공");
 				session.setAttribute("user", vo);
-				return "redirect:/user/mypage";
+				return "redirect:/user/mypage?type=home";
 			} else {
 				return "/user/loginfail";
 			}
@@ -207,13 +272,29 @@ public class UserController {
 	
 	// 마이페이지 요청
 	@GetMapping("/mypage")
-	public void getMypage(HttpSession session, Model model) {
+	public void getMypage(HttpSession session, Model model, @RequestParam String type) {
 		System.out.println("/user/mypage: GET");
 		System.out.println(session.getAttribute("user"));
 		String nick = ((UserVO) session.getAttribute("user")).getNickName();
-		model.addAttribute("userInfo", service.userInfo(nick));
-		System.out.println(service.userInfo(nick).getHomeList());
-
+		
+		QuizPageVO page = new QuizPageVO();
+		page.setCountPerPage(6);
+		
+		QuizPageCreator qpc = new QuizPageCreator();
+		qpc.setPage(page);
+		qpc.setPageTotalCount(service.getTotalCount(type, nick));
+		
+		if(type.equals("home")) {
+			model.addAttribute("articles", service.homeArticles(nick, page));
+			System.out.println("home" + service.homeArticles(nick, page));
+		} else if(type.equals("quiz")) {
+			model.addAttribute("articles", service.quizArticles(nick, page));
+			System.out.println("quiz" + service.quizArticles(nick, page));
+		}
+		model.addAttribute("paging", qpc);
+		
 	}
+	
+	//
 
 }

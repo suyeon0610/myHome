@@ -19,6 +19,9 @@
 	<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+ 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+ 	<script src="${pageContext.request.contextPath}/resources/js/scripts.js"></script>
 	
 	<style>
 		section{
@@ -108,8 +111,8 @@
  	<div class="container-fluid">
  		<div class="row">
  			<div class="col-md-3">
- 				<div class="my_icon"><img class="my" src="../img/mi_icon.webp">
- 					<div class="ninkname">${userInfo.nickName } </div>
+ 				<div class="my_icon"><img class="my" src="${pageContext.request.contextPath}/resources/img/mi_icon.webp">
+ 					<div class="ninkname">${user.nickName } </div>
  					<div class="Attention">
  						<div class="inner">
  							<a class="scrap_url"href="#">
@@ -136,8 +139,8 @@
  							</a>
  						</div>
 
-						 <button id="'#" class="btn btn-sm btn-info btn-block" type="submit">등업 신청</button>
-						 <button id="'#" onclick="location.href='<c:url value="/user/userModify" />'" class="btn btn-sm btn-info btn-block" type="submit">개인정보 수정</button>
+						 <button id="'#" onclick="location.href='<c:url value="/user/userModify" />'" class="btn btn-sm btn-info btn-block" type="button">개인정보 수정</button>
+						 <button id="'#" onclick="location.href='<c:url value="/user/userDelete" />'" class="btn btn-sm btn-info btn-block" type="button">회원 탈퇴</button>
  				</div>
                
 
@@ -177,33 +180,42 @@
 					</ul>
 				</div>
 				
-				<c:forEach var="a" items="${uesrInfo.homeList }">
-					<div class="col-md-3 cards">
-						<div class="card" style="width: 13rem;">
-							<a href="#"><img src="../img/interior10.png" class="card-img-top" alt="..."></a>
-							<div class="card-body">
-								<h5 class="card-title">${a.title }</h5>
-								<p class="card-text">
-									글내용
-								</p>
-								<hr>
-								<div class="d-flex justify-content-between align-items-center">
-			
-			
-									<a class="dete"><fmt:formatDate value="${a.regDate }" pattern="yyyy-MM-dd"/> </a>
-									<a class="eye"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-											fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-											<path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
-											<path
-												d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z">
-											</path>
-										</svg>${a.viewCnt }</a>
-			
+				<div class="articles-wrap">
+					<c:choose>
+						<c:when test="${paging.pageTotalCount != 0}">
+							<c:forEach var="a" items="${articles }">
+								<div class="col-md-3 cards">
+									<div class="card" style="width: 13rem;">
+										<img src="${pageContext.request.contextPath}/resources/img/interior10.png" class="card-img-top" alt="...">
+										<div class="card-body">
+											<h5 class="card-title">${a.title }</h5>
+											<p class="card-text">
+												글내용
+											</p>
+											<hr>
+											<div class="d-flex justify-content-between align-items-center">
+						
+						
+												<a class="dete"><fmt:formatDate value="${a.regDate }" pattern="yyyy-MM-dd"/> </a>
+												<a class="eye"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+														fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+														<path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
+														<path
+															d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z">
+														</path>
+													</svg>${a.viewCnt }</a>
+						
+											</div>
+										</div>
+									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-				</c:forEach>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							게시글이 존재하지 않습니다.
+						</c:otherwise>
+					</c:choose>
+				</div>
 
 
 			</div>
@@ -213,36 +225,20 @@
 
 	<nav class="pagination-sm pag">
 		<ul class="pagination">
-			<li class="page-item">
-				<a class="page-link" href="#">
-					◁
-				</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="#">
-					1
-				</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="#">
-					2
-				</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="#">
-					3
-				</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="#">
-					4
-				</a>
-			</li>
-			<li class="page-item">
-				<a class="page-link" href="#">
-					5
-				</a>
-			</li>
+			<c:if test="${paging.prev }">
+				<li class="page-item">
+					<a class="page-link" href="#">
+						◁
+					</a>
+				</li>			
+			</c:if>
+			<c:forEach var="i" begin="${paging.beginPage }" end="${paging.endPage }" >
+				<li class="page-item">
+					<a class="page-link" href='<c:url value="/" />'>
+						${i }
+					</a>
+				</li>
+			</c:forEach>
 			<li class="page-item">
 				<a class="page-link" href="#">
 					▷
@@ -252,9 +248,7 @@
 	</nav>
 </div>
  </section>
- 	<script src="../js/jquery.min.js"></script>
- 	<script src="../js/bootstrap.min.js"></script>
- 	<script src="../js/scripts.js"></script>
+ 	
  
 </body>
 

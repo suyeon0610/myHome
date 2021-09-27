@@ -21,33 +21,34 @@
     <div class="input-form-backgroud row">
       <div class="input-form col-md-12 mx-auto">
         <h4 class="mb-3">회원정보 수정</h4>
-        <form action="<c:url value='/user/userModify' />" method="post" enctype="multipart/form-data" class="validation-form" novalidate>
+        <form method="post" enctype="multipart/form-data" class="validation-form" novalidate>
+        	<input type="hidden" name="id" value="${user.id }">
           <div class="row">
 
             <div class="mb-3"> <label for="nickname">닉네임</label> 
-            	<input type="text" class="form-control" id="id" value="${userInfo.nickName }" readonly required>
+            	<input type="text" class="form-control" id="id" name="nickName" value="${userInfo.nickName }" readonly required>
 
               <div class="mb-3"> 
               	<label for="password">비밀번호</label> 
               		<input type="password" class="form-control" id="pw" placeholder="비밀번호를 적어주세요" required>
-                <div class="invalid-feedback"> 비밀번호.
+                <div class="invalid-feedback">
                 </div>
                 <div class="mb-3"> 
                 	<label for="passwordCH">비밀번호확인</label> 
-                		<input type="password" class="form-control" id="pw" placeholder="비밀번호를 다시 한번 적어주세요" required>
-                  <div class="invalid-feedback"> 비밀번호 확인해주세요.
+                		<input type="password" class="form-control" id="pwChk" placeholder="비밀번호를 다시 한번 적어주세요" required>
+                  <div class="invalid-feedback">
                   </div>
                   <div class="mb-3">
                   <label for="phoene">전화번호</label> <br>
-                    <select id="mPhone1" name="phone1">
-                      <option value="010" ${userInfo.phone1==010?selected:'' }>010</option>
-                      <option value="011">011</option>
-                      <option value="016">017</option>
-                      <option value="018">018</option>
-                      <option value="019">019</option>
+                    <select id="phone1" name="phone1">
+                      <option ${userInfo.phone1=='010'?'selected':'' }>010</option>
+                      <option ${userInfo.phone1=='011'?'selected':'' }>011</option>
+                      <option ${userInfo.phone1=='017'?'selected':'' }>017</option>
+                      <option ${userInfo.phone1=='018'?'selected':'' }>018</option>
+                      <option ${userInfo.phone1=='019'?'selected':'' }>019</option>
                     </select>-
-                    <input id="mPhone2" name="phone2" type="text" value="${userInfo.phone2 }" size="2" maxlength="4"autocomplete="off">-
-                    <input id="mPhone3" name="phone3" type="text" value="${userInfo.phone3 }" size="2" maxlength="4" autocomplete="off">
+                    <input id="phone2" name="phone2" type="text" value="${userInfo.phone2 }" size="2" maxlength="4"autocomplete="off">-
+                    <input id="phone3" name="phone3" type="text" value="${userInfo.phone3 }" size="2" maxlength="4" autocomplete="off">
                   </div>
 
                   <input class="ka-api" type="text" id="sample6_postcode" name="zipNum" value="${userInfo.zipNum }" placeholder="우편번호">
@@ -68,19 +69,19 @@
                   <div class="row">
                     <div class="col-md-8 mb-3"> <label for="Attention">관심분야</label>
                       <div class=invalid-checkbox>
-                        <label><input class="checkcss" type="checkbox" name="interest" value="Attention-1">가구</label>
-                        <label><input class="checkcss" type="checkbox" name="interest" value="Attention-2"> 패브릭</label><br>
-                        <label><input class="checkcss" type="checkbox" name="interest" value="Attention-3"> 조명</label>
-                        <label><input class="checkcss" type="checkbox" name="interest" value="Attention-4"> 장식/소품</label><br>
-                        <label><input class="checkcss" type="checkbox" name="interest" value="Attention-5"> 가전</label>
-                        <label><input class="checkcss" type="checkbox" name="interest" value="Attention-6"> 생필품</label><br>
-                        <label><input class="checkcss" type="checkbox" name="interest" value="Attention-7"> 캠핑용품</label>
-                        <label><input class="checkcss" type="checkbox" name="interest" value="Attention-8"> 주방용품</label>
+                        <label><input class="checkcss" type="checkbox" name="interest" value="intr1">가구</label>
+                        <label><input class="checkcss" type="checkbox" name="interest" value="intr2"> 패브릭</label><br>
+                        <label><input class="checkcss" type="checkbox" name="interest" value="intr3"> 조명</label>
+                        <label><input class="checkcss" type="checkbox" name="interest" value="intr4"> 장식/소품</label><br>
+                        <label><input class="checkcss" type="checkbox" name="interest" value="intr5"> 가전</label>
+                        <label><input class="checkcss" type="checkbox" name="interest" value="intr6"> 생필품</label><br>
+                        <label><input class="checkcss" type="checkbox" name="interest" value="intr7"> 캠핑용품</label>
+                        <label><input class="checkcss" type="checkbox" name="interest" value="intr8"> 주방용품</label>
                       </div>
                     </div>
                  </div>
 
-                    <div class="mb-4"></div> <button class="btn btn-info btn-lg btn-block" type="submit">수정 완료</button>
+                    <div class="mb-4"></div> <button id="mod-btn" class="btn btn-info btn-lg btn-block" type="button">수정 완료</button>
         </form>
       </div>
     </div>
@@ -142,16 +143,37 @@
   // jquery start
   $(function() {
 	  
+	  // 관심분야 체크 박스
 	  const interests = '${userInfo.interest}'.split(',');
-	  console.log(interests)
 	  
 	  for(var i=0; i<interests.length; i++) {
 		  for(var j=0; j<$('.checkcss').length; j++) {
-			  if(interests[i] == $('.checkcss')[j].val()) {
-				  $('.checkcss')[j].attr('checked', 'checked');
+			  if(interests[i] == $('.checkcss')[j].value) {
+				  $('.checkcss')[j].checked = 'true';
 			  }
 		  }
 	  }
+	  
+	  const pw = '${userInfo.pw}';
+	  // 수정 완료 버튼
+	  $('#mod-btn').click(function() {
+		  if($('#phone2').val() == '' || $('#phone3').val == '' || $('#zipNum').val() == '' || $('#zipBasic').val() == '' || $('#zipDetail').val() == '') {
+			  alert('정보를 모두 입력해 주세요.');
+		  } else if($('#pw').val() == '' || $('#pwChk').val() == '') {
+			  alert('비밀번호를 입력해 주세요.');
+		  } else {
+			  if($('#pw').val() != pw) {
+				  alert('비밀번호를 다시 확인하세요.');
+			  } else {
+				  if($('#pw').val() != $('#pwChk').val()) {
+					  alert('비밀번호가 일치하지 않습니다.');
+				  } else{
+					  $('#mod-btn').attr('type', 'submit');
+				  }
+			  }
+		  }
+		
+	}); 
 	
 }); //end jquery
 </script>

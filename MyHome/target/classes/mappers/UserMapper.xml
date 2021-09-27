@@ -19,11 +19,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="major" property="major" />
         <result column="profile" property="profile" />
         <result column="scrap" property="scrap" />
-        <collection property="homeList"  resultMap="MyHomeList"/>
-        <collection property="quizList"  resultMap="QuizList"/>
      </resultMap>
      
      <resultMap type="com.spring.myWeb.command.MyHomeVO" id="MyHomeList">
+     	<id property="bno" column="bno"/>
      	<result property="writer" column="writer"/>
      	<result property="title" column="title"/>
      	<result property="regDate" column="regdate"/>
@@ -39,6 +38,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		<result property="views" column="views"/> 
  	</resultMap>
  	
+ 	<sql id="type">
+ 		<if test="type == 'home'">FROM myhome</if>
+ 		<if test="type == 'quiz'">FROM quiz</if>
+ 	</sql>
+ 	
  	<!--  
  	<sql id="articles">
  		<if test="articleType"></if>
@@ -52,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <update id="userUpdate">
     	UPDATE users
-    	SET pw=#{pw}, nick_name=#{nickName}, phone1=#{phone1}, phone2=#{phone2}, phone3=#{phone3}, grade=#{grade}, interest=#{interest}, addr_basic=#{addrBasic}, addr_detail=#{addrDetail}, zip_num=#{zipNum}, major=#{major}, profile=#{profile}, scrap=#{scrap}
+    	SET phone1=#{phone1}, phone2=#{phone2}, phone3=#{phone3}, interest=#{interest}, addr_basic=#{addrBasic}, addr_detail=#{addrDetail}, zip_num=#{zipNum}, profile=#{profile}
 		WHERE id=#{id}    	
     </update>
  
@@ -90,17 +94,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 	</select>
 	
-	<select id="">
-		SELECT 
-		u.*,
-		h.writer, h.title, h.regdate, h.view_cnt
-		FROM users u LEFT JOIN myhome h
-		ON u.nick_name = h.writer		
-		WHERE u.nick_name = #{nick}
-		ORDER BY h.regdate DESC
-	
+	<select id="homeArticles" resultMap="MyHomeList">
+		SELECT *
+		FROM
+		(
+			SELECT ROWNUM rn, tbl.*
+			FROM
+			(
+				SELECT 
+				h.bno, h.writer, h.title, h.regdate, h.view_cnt
+				FROM users u LEFT JOIN myhome h
+				ON u.nick_name = h.writer		
+				WHERE u.nick_name = #{nick}
+				ORDER BY h.bno DESC
+			) tbl
+		)
+		<![CDATA[
+		WHERE rn > (#{page.pageNum}-1)*#{page.countPerPage}
+		AND rn < #{page.pageNum}*#{page.countPerPage}
+		]]>
 	</select>
 	
+	<select id="quizArticles" resultMap="QuizList">
+		SELECT *
+		FROM
+		(
+			SELECT ROWNUM rn, tbl.*
+			FROM
+			(
+				SELECT 
+				q.quiz_num, q.writer, q.title, q.reg_date, q.views
+				FROM users u LEFT JOIN quiz q
+				ON u.nick_name = q.writer		
+				WHERE u.nick_name = #{nick}
+				ORDER BY q.quiz_num DESC
+			) tbl
+		)
+		<![CDATA[
+		WHERE rn > (#{page.pageNum}-1)*#{page.countPerPage}
+		AND rn < #{page.pageNum}*#{page.countPerPage}
+		]]>
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*)
+		<include refid="type" />
+		WHERE writer = #{nick}
+	</select>
 	
  
 </mapper>

@@ -1,8 +1,13 @@
 package com.spring.myWeb.user.service;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.myWeb.command.MyHomeVO;
+import com.spring.myWeb.command.QuizVO;
 import com.spring.myWeb.command.UserVO;
+import com.spring.myWeb.quiz.util.QuizPageVO;
 
 public interface IUserService {
 
@@ -30,5 +35,14 @@ public interface IUserService {
 	
 	//닉네임 중복체크
 	int nickCheck(String nickName);
+	
+	// 뽐내기 게시글
+	List<MyHomeVO> homeArticles(String nick, QuizPageVO page);
+			
+	// q&a 게시글
+	List<QuizVO> quizArticles(String nick, QuizPageVO page);
+	
+	// 게시글 수
+	int getTotalCount(@Param("type") String type, @Param("nick") String nick);
 	
 }

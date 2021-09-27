@@ -1,7 +1,12 @@
 package com.spring.myWeb.user.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.myWeb.command.MyHomeVO;
+import com.spring.myWeb.command.QuizVO;
 import com.spring.myWeb.command.UserVO;
 
 public interface IUserMapper {
@@ -31,6 +36,13 @@ public interface IUserMapper {
 		//닉네임 중복체크
 		int nickCheck(String nickName);
 		
+		// 뽐내기 게시글
+		List<MyHomeVO> homeArticles(Map<String, Object> data);
 		
+		// q&a 게시글
+		List<QuizVO> quizArticles(Map<String, Object> data);
+		
+		// 게시글 수
+		int getTotalCount(@Param("type") String type, @Param("nick") String nick);
 
 }

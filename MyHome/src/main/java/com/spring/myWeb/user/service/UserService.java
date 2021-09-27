@@ -1,10 +1,17 @@
 package com.spring.myWeb.user.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.myWeb.command.MyHomeVO;
+import com.spring.myWeb.command.QuizVO;
 import com.spring.myWeb.command.UserVO;
+import com.spring.myWeb.quiz.util.QuizPageVO;
 import com.spring.myWeb.user.mapper.IUserMapper;
 
 @Service
@@ -57,6 +64,27 @@ public class UserService implements IUserService {
 	@Override
 	public int nickCheck(String nickName) {
 		return mapper.nickCheck(nickName);
+	}
+	
+	@Override
+	public List<MyHomeVO> homeArticles(String nick, QuizPageVO page) {
+		Map<String, Object> data = new HashMap<>();
+		data.put("nick", nick);
+		data.put("page", page);
+		return mapper.homeArticles(data);
+	}
+	
+	@Override
+	public List<QuizVO> quizArticles(String nick, QuizPageVO page) {
+		Map<String, Object> data = new HashMap<>();
+		data.put("nick", nick);
+		data.put("page", page);
+		return mapper.quizArticles(data);
+	}
+	
+	@Override
+	public int getTotalCount(@Param("type") String type, @Param("nick") String nick) {
+		return mapper.getTotalCount(type, nick);
 	}
 
 }
