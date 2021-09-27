@@ -10,14 +10,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>  마이 페이지  </title> 
-	<link rel="shortcut icon" href="../img/home-icon.png">
+	<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/home-icon.png">
 
 	<meta name="description" content="Source code generated using layoutit.com">
 	<meta name="author" content="LayoutIt!">
 
-	<link href="../css/bootstrap.min.css" rel="stylesheet">
-	<link href="../css/style.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.min.js"></script>
+	
 	<style>
 		section{
 			margin: 250px;
@@ -134,8 +136,8 @@
  							</a>
  						</div>
 
-						 <button id="'#" class="btn btn-sm btn-info btn-block" type="submit"><a class="#" href="#">등업 신청 </a></button>
-						 <button id="'#" class="btn btn-sm btn-info btn-block" type="submit"><a class="#" href="#">개인정보 수정 </a></button>
+						 <button id="'#" class="btn btn-sm btn-info btn-block" type="submit">등업 신청</button>
+						 <button id="'#" onclick="location.href='<c:url value="/user/userModify" />'" class="btn btn-sm btn-info btn-block" type="submit">개인정보 수정</button>
  				</div>
                
 
@@ -195,7 +197,7 @@
 											<path
 												d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z">
 											</path>
-										</svg>5</a>
+										</svg>${a.viewCnt }</a>
 			
 								</div>
 							</div>

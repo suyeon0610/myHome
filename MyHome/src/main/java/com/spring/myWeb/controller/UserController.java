@@ -209,11 +209,11 @@ public class UserController {
 	@GetMapping("/mypage")
 	public void getMypage(HttpSession session, Model model) {
 		System.out.println("/user/mypage: GET");
-		
-		UserVO vo = (UserVO) session.getAttribute("user");
-		String nick = vo.getNickName();
-		System.out.println("닉네임: " + nick);
+		System.out.println(session.getAttribute("user"));
+		String nick = ((UserVO) session.getAttribute("user")).getNickName();
 		model.addAttribute("userInfo", service.userInfo(nick));
+		System.out.println(service.userInfo(nick).getHomeList());
+
 	}
 
 }

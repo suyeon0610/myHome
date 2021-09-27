@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		WHERE id = #{id} 
  	</delete>
  	
- 	<select id="userLogin" resultType="com.spring.myWeb.command.UserVO">
+ 	<select id="userLogin" resultMap="user">
 		SELECT * FROM users
 		WHERE id = #{id}
 		AND pw = #{pw}
@@ -85,14 +85,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="userInfo" resultMap="user">
+		SELECT * FROM users
+		WHERE id = #{id}
+		
+	</select>
+	
+	<select id="">
 		SELECT 
 		u.*,
 		h.writer, h.title, h.regdate, h.view_cnt
 		FROM users u LEFT JOIN myhome h
-		ON u.nickName = h.writer		
-		WHERE u.nickName = #{nick}
-		ORDER BY h.regdate DESC;
+		ON u.nick_name = h.writer		
+		WHERE u.nick_name = #{nick}
+		ORDER BY h.regdate DESC
+	
 	</select>
+	
 	
  
 </mapper>
