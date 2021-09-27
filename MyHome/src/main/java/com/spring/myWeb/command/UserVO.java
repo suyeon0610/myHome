@@ -1,6 +1,7 @@
 package com.spring.myWeb.command;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class UserVO {
 	profile VARCHAR2(300),
 	reg_date DATE DEFAULT SYSDATE,
 	scrap VARCHAR2(500)
+	paper VARCHAR2(500)
 	);
 	 */
 
@@ -45,5 +47,7 @@ public class UserVO {
 		private String profile;
 		private Timestamp regDate;
 		private String scrap;
-
+		private List<MyHomeVO> homeList;
+		private List<QuizVO> quizList;
+		private String paper;
 }

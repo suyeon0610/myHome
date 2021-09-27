@@ -11,7 +11,7 @@ public interface IUserService {
 	void userJoin(UserVO vo);
 	
 	//회원정보 불러오기
-	UserVO userInfo(String id);
+	UserVO userInfo(String nick);
 	
 	//회원정보 수정
 	void userUpdate(UserVO vo);
@@ -27,5 +27,8 @@ public interface IUserService {
 	
 	//아이디 중복체크
 	int idCheck(String id);
+	
+	//닉네임 중복체크
+	int nickCheck(String nickName);
 	
 }

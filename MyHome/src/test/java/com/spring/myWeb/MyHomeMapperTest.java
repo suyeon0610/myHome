@@ -18,12 +18,22 @@ public class MyHomeMapperTest {
 	
 	@Test
 	public void registTest() {
-		for(int i=1;i<=220;i++) {
+		for(int i=1;i<=25;i++) {
 			MyHomeVO vo = new MyHomeVO();
-			vo.setWriter("지성" + i);
+			vo.setWriter("abcfd");
 			vo.setTitle("테스트" + i);
 			vo.setContent("테스트 글쓰기" + i);
 			vo.setImg("");
+			vo.setHomeForm("");
+			vo.setMoney("");
+			vo.setAge("");
+			vo.setHomeSize("");
+			vo.setPlace("");
+			vo.setDirection("");
+			vo.setRoom("");
+			vo.setFamily("");
+			vo.setWorker("");
+			vo.setRegion("");
 			mapper.regist(vo);
 			System.out.println(vo);
 		}

@@ -99,8 +99,7 @@
 								<thead>
 									<tr style="background-color: #17a2b8;">
 										<th width="10%">번호</th>
-										<th width="40%">제목</th>
-										<th width="10%">카테고리</th>
+										<th width="50%">제목</th>
 										<th width="10%">작성자</th>
 										<th width="20%">작성일</th>
 										<th width="10%">조회수</th>
@@ -120,9 +119,8 @@
 															<span class="new">NEW!</span>
 														</c:if>
 													</td>
-													<td>${a.type}</td>
 													<td>${a.writer}</td>
-													<td><fmt:formatDate value="${a.regDate}" pattern="yyyy-MM-dd"/></td>
+													<td><fmt:formatDate value="${a.regDate}" pattern="yyyy-MM-dd HH:mm"/></td>
 													<td>${a.views}</td>
 												<tr>									
 											</c:forEach>

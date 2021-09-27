@@ -59,7 +59,7 @@
 								<c:if test="${article.fileLoca != null }">
 									<img alt="가구 이미지" src="/img/${article.fileLoca }" class="inimg">
 								</c:if>
-								<div id="quiz_content" contentEditable="false" class="boast_inwrite" style="overflow:auto"><p>${article.content }</p></div>
+								<div id="quiz_content" contentEditable="false" class="boast_inwrite" style="overflow:auto">${article.content }</div>
 							</td>
 						</tr>
 						<tr>

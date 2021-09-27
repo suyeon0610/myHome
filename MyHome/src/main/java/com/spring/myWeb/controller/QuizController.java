@@ -67,7 +67,14 @@ public class QuizController {
 		System.out.println("/quiz/detail: GET");
 		
 		service.updateCnt(quizNum);
-		model.addAttribute("article", service.getDetail(quizNum));
+		
+		QuizVO quiz = service.getDetail(quizNum);
+		String content = quiz.getContent();
+		content.replaceAll("div", "br");
+		content.replaceAll("/div", " ");
+		System.out.println("글 내용: " + content);
+		quiz.setContent(content);
+		model.addAttribute("article", quiz);
 		return "quiz/quizDetail";
 	}
 
@@ -84,12 +91,12 @@ public class QuizController {
 		System.out.println("/quiz/quizRegist: POST");
 
 		try {
-			String writer = ((UserVO)session.getAttribute("user")).getNickName(); // session.id
+			String writer = "suyeon"; //((UserVO)session.getAttribute("user")).getNickName(); // session.id
 			String content = article.getContent();
 			String title = article.getTitle();
 			String type = article.getType();
 			String fileLoca = "";
-			
+
 			// 파일 저장 경로
 			//※경로를 resources로 잡르면 was 재실행 시 워크 스페이스 내용으로 바뀌면서 파일 자동 삭제 됨
 //			String resource = servletContext.getRealPath("/resources"); 

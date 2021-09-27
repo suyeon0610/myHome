@@ -58,24 +58,22 @@
                         <tr>
                             <th style="padding-bottom: 15px;">분류</th>
                             <td>     
-                                <select class="form-control" name="type" id="#">
-									<option>시공</option>
-									<option>도배</option>
-									<option>타일</option>
-									<option>건축자재</option>
-									<option>건축설비</option>
-									<option>장판</option>
-									<option>필름시트</option>
-								</select>
+                                <input type="checkbox" name="type" value="도배"> 도배
+                                <input type="checkbox" name="type" value="장판"> 장판
+                                <input type="checkbox" name="type" value="조명"> 조명
+                                <input type="checkbox" name="type" value="타일"> 타일
+                                <input type="checkbox" name="type" value="페인트"> 페인트
+                                <input type="checkbox" name="type" value="필름시트"> 필름시트
+                                <input type="checkbox" name="type" value="상품"> 인테리어 상품
+                                <input type="checkbox" name="type" value="기타"> 기타
                             </td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td colspan="2"> 
-                            	<div class="quiz-content-wrap">
-                            		<div contentEditable="true" id="textArea" class="boast_inwrite" ><p id="content"></p></div>
-                            	</div>
+                            	<div contentEditable="true" id="content" class="boast_inwrite" style="white-space: pre"></div>
+
                             	<!-- 이미지 미리보기 
                             		<div class="img-wrap inimg">
                             			<img id="img" />
@@ -99,33 +97,34 @@
 	
 	// jquery start
 	$(function() {
+
+		var strAdd;
 		
 		// 글 내용 보내기
 		$('#regist-btn').click(function() {
-			const content = $('#content').text();
+			const content = $('#content').html();
+			content.slice(content.indexOf('<div'), content.indexOf('<div') + tag.length + 1);
 			console.log(content);
+			
 			$('input[name=content]').val(content);
 		});
 		
+		// 엔터 -> br
 		
-		// div값 p태그로 옮기기
-		var contents;
-		$('.quiz-content-wrap').on('keyup', function() {
-			const textArea = $('#textArea').text();
-			contents = textArea  
-			$('#content').text(contents);
-			
-		});
+
 		<%-- 이미지 미리보기 --%>
 		var sel_file;
-		var strAdd;
 		
 		$('#input_img').change(function(e) {
 			
+			const tag = "<div class='img-wrap'><img src='' id='img' class='inimg' /></div>";
+			strAdd += tag;
+			<%--
 			strAdd += "<div class='img-wrap'>";
 			strAdd += "<img src='' id='img' class='inimg' />";
 			strAdd += "</div>";
 			$('#content').html(strAdd);
+			--%>
 			
 			var files = e.target.files;
 			var filesArr = Array.prototype.slice.call(files);
@@ -141,12 +140,12 @@
 				
 				var reader = new FileReader();
 				reader.onload = function(e) {
+					console.log(e.target.result);
 					$('#img').attr("src", e.target.result); // 읽은 파일 결과
 				}
 				reader.readAsDataURL(f);
 			});
 		}); // 이미지 파일 값 변경 시 수행
-		
 		
 		
 	}); // jquery end

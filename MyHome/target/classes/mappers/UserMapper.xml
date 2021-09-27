@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
-<mapper namespace="com.spring.myWeb.user.mapper.UserMapper">
+<mapper namespace="com.spring.myWeb.user.mapper.IUserMapper">
      <resultMap type="com.spring.myWeb.command.UserVO" id="user">
         <id column="id" property="id" />
         <result column="pw" property="pw" />
@@ -19,17 +19,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="major" property="major" />
         <result column="profile" property="profile" />
         <result column="scrap" property="scrap" />
+        <collection property="homeList"  resultMap="MyHomeList"/>
+        <collection property="quizList"  resultMap="QuizList"/>
      </resultMap>
      
      <resultMap type="com.spring.myWeb.command.MyHomeVO" id="MyHomeList">
-     	
+     	<result property="writer" column="writer"/>
+     	<result property="title" column="title"/>
+     	<result property="regDate" column="regdate"/>
+     	<result property="viewCnt" column="view_cnt"/>
      </resultMap>
  
  	<resultMap type="com.spring.myWeb.command.QuizVO" id="QuizList">
  		<id property="quizNum" column="quiz_num"/>
  		<result property="title" column="title"/>
+ 		<result property="type" column="type"/>
+ 		<result property="writer" column="writer"/>
+ 		<result property="regDate" column="reg_date"/>
+ 		<result property="views" column="views"/> 
  	</resultMap>
  	
+ 	<!--  
+ 	<sql id="articles">
+ 		<if test="articleType"></if>
+ 	</sql>
+ 	-->
+ 	 	
     <insert id="userJoin">
         insert into users(id, pw, nick_name, phone1, phone2, phone3, grade, interest, addr_basic, addr_detail, zip_num, major, profile, scrap)
         values (#{id}, #{pw}, #{nickName}, #{phone1}, #{phone2}, #{phone3}, #{grade, jdbcType=VARCHAR}, #{interest, jdbcType=VARCHAR}, #{addrBasic}, #{addrDetail, jdbcType=VARCHAR}, #{zipNum}, #{major, jdbcType=VARCHAR}, #{profile, jdbcType=VARCHAR}, #{scrap, jdbcType=VARCHAR})
@@ -63,5 +78,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT COUNT (*) FROM users
 		WHERE id = #{id}
 	</select>
+	
+	<select id="nickCheck" resultType="int">
+		SELECT COUNT (*) FROM users
+		WHERE nick_name = #{nickName}
+	</select>
+	
+	<select id="userInfo" resultMap="user">
+		SELECT 
+		u.*,
+		h.writer, h.title, h.regdate, h.view_cnt
+		FROM users u LEFT JOIN myhome h
+		ON u.nickName = h.writer		
+		WHERE u.nickName = #{nick}
+		ORDER BY h.regdate DESC;
+	</select>
+	
  
 </mapper>

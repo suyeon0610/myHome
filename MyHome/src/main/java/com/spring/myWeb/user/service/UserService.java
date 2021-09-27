@@ -21,8 +21,8 @@ public class UserService implements IUserService {
 
 	@Override
 	//회원정보
-	public UserVO userInfo(String id) {
-		return null;
+	public UserVO userInfo(String nick) {
+		return mapper.userInfo(nick);
 	}
 	
 	//로그인
@@ -52,6 +52,11 @@ public class UserService implements IUserService {
 	@Override
 	public int idCheck(String id) {
 		return mapper.idCheck(id);
+	}
+	
+	@Override
+	public int nickCheck(String nickName) {
+		return mapper.nickCheck(nickName);
 	}
 
 }
