@@ -431,6 +431,16 @@
             <button class="btn btn-default more2" data-addmore="true" onclick="#">더보기</button>
         </div>
 
+<script>
+
+	const msg = '${msg}';
+	
+	if(msg === 'delSuccess') {
+		alert('탈퇴가 정상 처리되었습니다.');
+	}
+	
+</script>
+
 
 <%@include file = "include/footer.jsp" %> 
 

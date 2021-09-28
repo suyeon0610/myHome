@@ -7,6 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      <resultMap type="com.spring.myWeb.command.UserVO" id="user">
         <id column="id" property="id" />
         <result column="pw" property="pw" />
+        <result column="user_num" property="userNum" />
         <result column="nick_name" property="nickName" />
         <result column="phone1" property="phone1" />
         <result column="phone2" property="phone2" />
@@ -39,8 +40,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	</resultMap>
  	
  	<sql id="type">
- 		<if test="type == 'home'">FROM myhome</if>
- 		<if test="type == 'quiz'">FROM quiz</if>
+ 		<if test="type == 'home'">FROM myhome WHERE writer = #{nick}</if>
+ 		<if test="type == 'quiz'">FROM quiz WHERE writer = #{nick}</if>
+ 		<if test="type == 'upgrade'">FROM users WHERE major is not null AND grade = 'normal'</if>
  	</sql>
  	
  	<!--  
@@ -50,8 +52,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	-->
  	 	
     <insert id="userJoin">
-        insert into users(id, pw, nick_name, phone1, phone2, phone3, grade, interest, addr_basic, addr_detail, zip_num, major, profile, scrap)
-        values (#{id}, #{pw}, #{nickName}, #{phone1}, #{phone2}, #{phone3}, #{grade, jdbcType=VARCHAR}, #{interest, jdbcType=VARCHAR}, #{addrBasic}, #{addrDetail, jdbcType=VARCHAR}, #{zipNum}, #{major, jdbcType=VARCHAR}, #{profile, jdbcType=VARCHAR}, #{scrap, jdbcType=VARCHAR})
+        insert into users(id, pw, user_num, nick_name, phone1, phone2, phone3, interest, addr_basic, addr_detail, zip_num, major, profile, scrap)
+        values (#{id}, #{pw}, user_seq.NEXTVAL, #{nickName}, #{phone1}, #{phone2}, #{phone3}, #{interest, jdbcType=VARCHAR}, #{addrBasic}, #{addrDetail, jdbcType=VARCHAR}, #{zipNum}, #{major, jdbcType=VARCHAR}, #{profile, jdbcType=VARCHAR}, #{scrap, jdbcType=VARCHAR})
     </insert>
     
     <update id="userUpdate">
@@ -59,13 +61,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	SET phone1=#{phone1}, phone2=#{phone2}, phone3=#{phone3}, interest=#{interest}, addr_basic=#{addrBasic}, addr_detail=#{addrDetail}, zip_num=#{zipNum}, profile=#{profile}
 		WHERE id=#{id}    	
     </update>
- 
- 	<select id="pwCheck" resultType="int">
- 		SELECT COUNT(*) 
- 		FROM users
- 		WHERE id=#{id}
- 		AND pw=#{pw}
- 	</select>
  	
  	<delete id="userDelete">
  		DELETE FROM users
@@ -90,7 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="userInfo" resultMap="user">
 		SELECT * FROM users
-		WHERE id = #{id}
+		WHERE user_num = #{userNum}
 		
 	</select>
 	
@@ -111,8 +106,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 		<![CDATA[
 		WHERE rn > (#{page.pageNum}-1)*#{page.countPerPage}
-		AND rn < #{page.pageNum}*#{page.countPerPage}
+		AND rn <= #{page.pageNum}*#{page.countPerPage}
 		]]>
+	</select>
+	
+	<select id = "homeArticle" resultType="com.spring.myWeb.command.MyHomeVO">
+		SELECT * FROM myhome
+		WHERE bno = #{bno}
 	</select>
 	
 	<select id="quizArticles" resultMap="QuizList">
@@ -122,25 +122,57 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			SELECT ROWNUM rn, tbl.*
 			FROM
 			(
-				SELECT 
-				q.quiz_num, q.writer, q.title, q.reg_date, q.views
-				FROM users u LEFT JOIN quiz q
-				ON u.nick_name = q.writer		
-				WHERE u.nick_name = #{nick}
-				ORDER BY q.quiz_num DESC
+				SELECT *
+				FROM quiz
+				<choose>
+					<when test="type == 'recoQuiz'">WHERE type LIKE '%'||{major}||'%'</when>
+					<otherwise>WHERE writer = #{nick}</otherwise>
+				</choose>
+				ORDER BY quiz_num DESC
 			) tbl
 		)
 		<![CDATA[
 		WHERE rn > (#{page.pageNum}-1)*#{page.countPerPage}
-		AND rn < #{page.pageNum}*#{page.countPerPage}
+		AND rn <= #{page.pageNum}*#{page.countPerPage}
 		]]>
 	</select>
+	
 	
 	<select id="getTotalCount" resultType="int">
 		SELECT COUNT(*)
 		<include refid="type" />
-		WHERE writer = #{nick}
 	</select>
 	
+	<select id="getScrap" resultType="String">
+		SELECT SUBSTR(scrap,((#{pageNum}-1)*24)+1,24)
+		FROM users
+		WHERE nick_name = #{nick}
+	</select>
+	
+	<select id="scrapCount" resultType="int">
+		SELECT scrap
+		FROM users
+		WHERE nick_name = #{nick}
+	</select>
+	
+	<select id="proInfo" resultMap="user">
+		SELECT *
+		FROM
+		(
+			SELECT ROWNUM rn, tbl.*
+			FROM
+			(	
+				SELECT *
+				FROM users
+				WHERE major is not null
+				AND grade = 'normal'
+				ORDER BY user_num DESC
+			) tbl
+		)
+		<![CDATA[
+		WHERE rn > (#{pageNum}-1)*#{countPerPage}
+		AND rn <= #{pageNum}*#{countPerPage}
+		]]>
+	</select>
  
 </mapper>

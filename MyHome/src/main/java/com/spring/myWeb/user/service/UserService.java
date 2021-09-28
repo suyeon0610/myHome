@@ -1,5 +1,6 @@
 package com.spring.myWeb.user.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,8 +29,8 @@ public class UserService implements IUserService {
 
 	@Override
 	//회원정보
-	public UserVO userInfo(String nick) {
-		return mapper.userInfo(nick);
+	public UserVO userInfo(int userNum) {
+		return mapper.userInfo(userNum);
 	}
 	
 	//로그인
@@ -43,12 +44,6 @@ public class UserService implements IUserService {
 	//회원정보 수정
 	public void userUpdate(UserVO vo) {
 		mapper.userUpdate(vo);
-	}
-
-
-	@Override
-	public int pwCheck(String id, String pw) {
-		return mapper.pwCheck(id, pw);
 	}
 	
 	@Override
@@ -75,16 +70,56 @@ public class UserService implements IUserService {
 	}
 	
 	@Override
-	public List<QuizVO> quizArticles(String nick, QuizPageVO page) {
+	public MyHomeVO homeArticle(int bno) {
+		return mapper.homeArticle(bno);
+	}
+	
+	@Override
+	public List<QuizVO> quizArticles(String nick, String type, QuizPageVO page) {
 		Map<String, Object> data = new HashMap<>();
 		data.put("nick", nick);
 		data.put("page", page);
+		data.put("type", type);
 		return mapper.quizArticles(data);
 	}
+	
 	
 	@Override
 	public int getTotalCount(@Param("type") String type, @Param("nick") String nick) {
 		return mapper.getTotalCount(type, nick);
 	}
 
+	@Override
+	public List<MyHomeVO> getScrap(@Param("pageNum") int pageNum, @Param("nick") String nick) {
+		String scrap = mapper.getScrap(pageNum, nick);
+		if(scrap == null) {
+			scrap = "0000";
+		}
+		int s=0;
+		List<MyHomeVO> list = new ArrayList<>();
+		for(int i=0; i<scrap.length(); i+=4) {
+			s = Integer.parseInt(scrap.substring(i, i+4));
+			list.add(mapper.homeArticle(s));
+		}
+		return list;
+	}
+	
+	@Override
+	public int scrapCount(String nick) {
+		int count=0;
+		String scrap = mapper.scrapCount(nick);
+		if(scrap == null) {
+			return 0;
+		}
+		for(int i=0; i<scrap.length(); i+=4) {
+			count += 1;
+		}
+		return count;
+	}
+	
+	@Override
+	public List<UserVO> proInfo(QuizPageVO page) {
+		return mapper.proInfo(page);
+	}
+	
 }

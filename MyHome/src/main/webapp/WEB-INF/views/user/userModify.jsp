@@ -22,7 +22,7 @@
       <div class="input-form col-md-12 mx-auto">
         <h4 class="mb-3">회원정보 수정</h4>
         <form method="post" enctype="multipart/form-data" class="validation-form" novalidate>
-        	<input type="hidden" name="id" value="${user.id }">
+        	<input type="hidden" name="id" value="${userInfo.id }">
           <div class="row">
 
             <div class="mb-3"> <label for="nickname">닉네임</label> 

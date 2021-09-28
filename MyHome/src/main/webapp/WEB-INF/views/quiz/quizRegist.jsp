@@ -62,7 +62,7 @@
                                 <input type="checkbox" name="type" value="장판"> 장판
                                 <input type="checkbox" name="type" value="조명"> 조명
                                 <input type="checkbox" name="type" value="타일"> 타일
-                                <input type="checkbox" name="type" value="페인트"> 페인트
+                                <input type="checkbox" name="type" value="페인트"> 페인트 <br>
                                 <input type="checkbox" name="type" value="필름시트"> 필름시트
                                 <input type="checkbox" name="type" value="상품"> 인테리어 상품
                                 <input type="checkbox" name="type" value="기타"> 기타

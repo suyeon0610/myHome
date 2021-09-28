@@ -91,7 +91,8 @@ public class QuizController {
 		System.out.println("/quiz/quizRegist: POST");
 
 		try {
-			String writer = "suyeon"; //((UserVO)session.getAttribute("user")).getNickName(); // session.id
+			int userNum = ((UserVO)session.getAttribute("user")).getUserNum();
+			String writer = article.getWriter();// session.id
 			String content = article.getContent();
 			String title = article.getTitle();
 			String type = article.getType();
@@ -111,7 +112,7 @@ public class QuizController {
 			if(!file.isEmpty()) { // 업로드 파일이 있는 경우
 				
 				// 저장할 폴더 경로
-				String uploadPath = path + "\\" + writer;
+				String uploadPath = path + "\\" + userNum;
 				
 				File folder = new File(uploadPath);
 				if (!folder.exists()) {
@@ -140,7 +141,7 @@ public class QuizController {
 				file.transferTo(saveFile);
 				
 				// sql에 저장할 파일 경로
-				fileLoca = writer + "/" + fileName;
+				fileLoca = userNum + "/" + fileName;
 				
 			}
 			

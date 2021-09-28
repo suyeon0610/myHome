@@ -16,13 +16,10 @@ public interface IUserService {
 	void userJoin(UserVO vo);
 	
 	//회원정보 불러오기
-	UserVO userInfo(String nick);
+	UserVO userInfo(int userNum);
 	
 	//회원정보 수정
 	void userUpdate(UserVO vo);
-	
-	// 비밀번호 확인
-	int pwCheck(@Param("id") String id, @Param("pw") String pw);
 	
 	// 회원탈퇴
 	void userDelete(String id);
@@ -38,11 +35,22 @@ public interface IUserService {
 	
 	// 뽐내기 게시글
 	List<MyHomeVO> homeArticles(String nick, QuizPageVO page);
+	
+	// 뽐내기 글
+	MyHomeVO homeArticle(int bno);	
 			
 	// q&a 게시글
-	List<QuizVO> quizArticles(String nick, QuizPageVO page);
-	
+	List<QuizVO> quizArticles(String nick, String type, QuizPageVO page);
+		
 	// 게시글 수
 	int getTotalCount(@Param("type") String type, @Param("nick") String nick);
 	
+	// 스크랩 게시글
+	List<MyHomeVO> getScrap(@Param("pageNum") int pageNum, @Param("nick") String nick);
+	
+	// 스크랩 게시글 수
+	int scrapCount(String nick);
+	
+	// 등업 회원 정보
+	List<UserVO> proInfo(QuizPageVO page);
 }

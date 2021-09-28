@@ -19,6 +19,7 @@ public class UserVO {
 	CREATE TABLE users (
 	id VARCHAR2(100),
 	pw VARCHAR2(50) NOT NULL,
+	user_num NUMBER,
 	nick_name VARCHAR2(50) NOT NULL,
 	phone1 VARCHAR2(20) NOT NULL,
 	phone2 VARCHAR2(20) NOT NULL,
@@ -38,6 +39,7 @@ public class UserVO {
 
 		private String id;
 		private String pw;
+		private int userNum;
 		private String nickName;
 		private String phone1;
 		private String phone2;
