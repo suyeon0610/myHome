@@ -18,16 +18,7 @@
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/home-icon.png">
 
 <!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/QnApage.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-</script>
-
-
 <!-- JQuery -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.min.js"></script>
 
@@ -171,10 +162,6 @@
 	</div>
 	<!-- /.container -->
 
-	<!-- Bootstrap core JavaScript -->
-	<script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
 </body>
 
 <script>
@@ -208,4 +195,4 @@
 </script>
 </html>
 
-<%@ include file="../include/header.jsp"%>
+<%@ include file="../include/footer.jsp"%>

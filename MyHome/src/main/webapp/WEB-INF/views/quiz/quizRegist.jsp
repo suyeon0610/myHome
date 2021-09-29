@@ -10,32 +10,10 @@
     <title>  QnA  </title> 
 	<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/home-icon.png">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
+	<link href="${pageContext.request.contextPath}/resources/css/qna-corr-wit.css" rel="stylesheet">
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.min.js"></script>
     <style>
-        #contentForm {
-            width: 40%;
-            margin: 0 auto;
-            padding-top: 12%;
-        }
-        .table>thead>tr>th,
-        .table>tbody>tr>th {
-            background-color: #e6ecff;
-            text-align: center;
-        }
-        .btns{
-            text-align: right;
-        }
-        .boast_inwrite{
-            background-color: white;
-            width: 100%;
-            height: 300px;
-            overflow:auto;
-        }
-        .inimg{
-		    width: 100%;
-		    height: auto;
-		    text-align: center;
-		}
+       
     </style>
 
 
@@ -44,6 +22,7 @@
 <body>
     <form action='<c:url value="/quiz/quizRegist" />' method="post" enctype="multipart/form-data">
         <div id="contentForm"> 
+        	<h3 class="title">질문 과 답변</h3> 
 	        <input type="hidden" name="content" value="">	         
             <div class="input-group input-group-sm" role="group" aria-label="...">
                 <table class="table table-striped table-bordered">

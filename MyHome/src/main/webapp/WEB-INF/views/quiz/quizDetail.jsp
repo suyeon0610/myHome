@@ -90,7 +90,14 @@
 				<div class="reply-wrap">
 				
 					<div class="reply-image">
-						<img src='<c:url value="/user/display?profile=${user.profile }" />' alt="prof" class="userimg">
+						<c:choose>
+							<c:when test="${user.profile == null}">
+								<img src='${pageContext.request.contextPath}/resources/img/icon.png' alt="prof" class="userimg">
+							</c:when>
+							<c:otherwise>
+								<img src='<c:url value="/user/display?profile=${user.profile }" />' alt="prof" class="userimg">
+							</c:otherwise>
+						</c:choose>
 					</div>
 					<div class="reply-content">
 						<div class="reply-group clearfix">
