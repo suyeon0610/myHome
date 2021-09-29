@@ -23,6 +23,7 @@
         <h4 class="mb-3">회원정보 수정</h4>
         <form method="post" enctype="multipart/form-data" class="validation-form" novalidate>
         	<input type="hidden" name="id" value="${userInfo.id }">
+        	<input type="hidden" name="userNum" value="${userInfo.userNum }">
           <div class="row">
 
             <div class="mb-3"> <label for="nickname">닉네임</label> 

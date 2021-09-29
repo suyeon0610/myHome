@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +19,7 @@
 
 	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/css/mypage.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/resources/css/mypage2.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.min.js"></script>
@@ -36,7 +39,15 @@
  	<div class="container-fluid">
  		<div class="row">
  			<div class="col-md-3">
- 				<div class="my_icon"><img class="my" src="${pageContext.request.contextPath}/resources/img/mi_icon.webp">
+ 				<div class="my_icon">
+ 					<c:choose>
+ 						<c:when test="${userInfo.profile === null}">
+ 							<img class="my" src='${pageContext.request.contextPath}/resources/img/mi_icon.webapp'>
+ 						</c:when>
+ 						<c:otherwise>
+		 					<img class="my" src='<c:url value="/user/display?profile=${userInfo.profile }"/>'>
+ 						</c:otherwise>
+ 					</c:choose>
  					<div class="ninkname">${userInfo.nickName } </div>
  					<div class="Attention">
  						<div class="inner">
@@ -193,11 +204,11 @@
 			</div>
 		</div>
 	  </div>
-	</div> 	
  
 </body>
 
 <script>
+
 	
 	// jquery start
 	$(function() {

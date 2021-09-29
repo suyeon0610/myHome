@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<%@ include file="../include/header.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -169,8 +172,8 @@
 	<!-- /.container -->
 
 	<!-- Bootstrap core JavaScript -->
-	<script src="vendor/jquery/jquery.min.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
@@ -204,3 +207,5 @@
 	
 </script>
 </html>
+
+<%@ include file="../include/header.jsp"%>

@@ -1,6 +1,7 @@
 package com.spring.myWeb.controller;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -9,12 +10,15 @@ import java.util.UUID;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -91,8 +95,8 @@ public class UserController {
 
 		int userNum = ((UserVO) session.getAttribute("user")).getUserNum();
 		System.out.println(userNum);
+		
 		model.addAttribute("userInfo", service.userInfo(userNum));
-
 	}
 
 	// 회원정보수정요청
@@ -102,6 +106,7 @@ public class UserController {
 
 		try {
 
+			String id = vo.getId();
 			int userNum = vo.getUserNum();
 			String phone1 = vo.getPhone1();
 			String phone2 = vo.getPhone2();
@@ -153,7 +158,7 @@ public class UserController {
 
 			}
 
-			UserVO user = new UserVO(null, null, 0, null, phone1, phone2, phone3, null, interest, addrBasic, addrDetail,
+			UserVO user = new UserVO(id, null, 0, null, phone1, phone2, phone3, null, interest, addrBasic, addrDetail,
 					zipNum, null, profile, null, null, null);
 			service.userUpdate(user);
 
@@ -269,9 +274,33 @@ public class UserController {
 		System.out.println("/user/mypage: GET");
 
 		UserVO user = (UserVO)session.getAttribute("user");
+		int userNum = user.getUserNum();
+		user = service.userInfo(userNum);		
+		System.out.println(user.getProfile());
 		model.addAttribute("userInfo", user);
 	}
-
+	
+	//프로필 사진 요청
+	@GetMapping("/display")
+	public ResponseEntity<byte[]> getProfile(@RequestParam String profile) {
+		System.out.println("프로필 사진 요청");
+		// 프로필 사진 정보 전송
+		File file = new File("C:\\home\\quiz\\upload" + "\\" + profile);
+		System.out.println(file);
+		
+		ResponseEntity<byte[]> imgInfo = null;
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Content-Type", Files.probeContentType(file.toPath()));
+			imgInfo = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return imgInfo;
+	}
+	
 	// 글 목록 요청(비동기)
 	@GetMapping("/getList/{type}")
 	@ResponseBody
