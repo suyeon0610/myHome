@@ -191,10 +191,12 @@ public class UserController {
 	@PostMapping("/login")
 	public String userLogin(String id, String pw, HttpSession session) {
 		System.out.println("로그인요청");
+		
+		int userNum = service.userLogin(id, pw);
+		
+		UserVO vo = service.userInfo(userNum);
 
-		UserVO vo = service.userLogin(id, pw);
-
-		if (vo != null) {
+		if (userNum != 0) {
 			System.out.println("로그인성공");
 			session.setAttribute("user", vo);
 			return "redirect:/user/mypage";

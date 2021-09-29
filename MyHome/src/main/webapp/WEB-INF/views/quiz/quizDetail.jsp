@@ -57,7 +57,7 @@
 						<tr height="200" valign="top" style="background-color: #fff;">
 							<td colspan="4">
 								<c:if test="${article.fileLoca != null }">
-									<img alt="가구 이미지" src="/img/${article.fileLoca }" class="inimg">
+									<img alt="가구 이미지" src='<c:url value="/quiz/display?fileLoca=${article.fileLoca}" />' class="inimg">
 								</c:if>
 								<div id="quiz_content" contentEditable="false" class="boast_inwrite" style="overflow:auto">${article.content }</div>
 							</td>
@@ -90,7 +90,7 @@
 				<div class="reply-wrap">
 				
 					<div class="reply-image">
-						<img src="${pageContext.request.contextPath}/resources/img/icon.png" alt="prof" class="userimg">
+						<img src='<c:url value="/user/display?profile=${user.profile }" />' alt="prof" class="userimg">
 					</div>
 					<div class="reply-content">
 						<div class="reply-group clearfix">

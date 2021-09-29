@@ -33,9 +33,9 @@ public class UserService implements IUserService {
 		return mapper.userInfo(userNum);
 	}
 	
-	//로그인
+	//로그인 성공 여부
 	@Override
-	public UserVO userLogin(@Param("id") String id, @Param("pw") String pw) {
+	public int userLogin(@Param("id") String id, @Param("pw") String pw) {
 		return mapper.userLogin(id, pw);
 	}
 	

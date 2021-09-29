@@ -2,6 +2,7 @@ package com.spring.myWeb.controller;
 
 import java.io.File;
 import java.net.URI;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -13,8 +14,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -77,6 +82,27 @@ public class QuizController {
 		model.addAttribute("article", quiz);
 		return "quiz/quizDetail";
 	}
+	
+	// 질문 사진 요청
+	@GetMapping("/display")
+	public ResponseEntity<byte[]> getImage(@RequestParam String fileLoca) {
+		System.out.println("질문 사진 요청");
+
+		File file = new File("C:\\home\\quiz\\upload" + "\\" + fileLoca);
+		System.out.println("사진 정보:" + file);
+		
+		ResponseEntity<byte[]> imgInfo = null;
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Content-Type", Files.probeContentType(file.toPath()));
+			imgInfo = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return imgInfo;
+	}
 
 	// 질문 등록 화면 요청
 	@GetMapping("/quizRegist")
@@ -91,8 +117,9 @@ public class QuizController {
 		System.out.println("/quiz/quizRegist: POST");
 
 		try {
-			int userNum = ((UserVO)session.getAttribute("user")).getUserNum();
-			String writer = article.getWriter();// session.id
+			UserVO userInfo = (UserVO)session.getAttribute("user");
+			int userNum = userInfo.getUserNum();
+			String writer = userInfo.getNickName();// session.id
 			String content = article.getContent();
 			String title = article.getTitle();
 			String type = article.getType();
@@ -158,6 +185,7 @@ public class QuizController {
 		return "redirect:/quiz/quizList?pageNum=" + 1;
 	}
 
+	
 	// 수정 화면 요청
 	@GetMapping("/quizModify")
 	public void modify(@ModelAttribute("article") QuizVO vo) {

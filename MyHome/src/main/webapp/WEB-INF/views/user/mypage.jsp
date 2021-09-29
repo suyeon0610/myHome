@@ -41,7 +41,7 @@
  			<div class="col-md-3">
  				<div class="my_icon">
  					<c:choose>
- 						<c:when test="${userInfo.profile === null}">
+ 						<c:when test="${userInfo.profile == null}">
  							<img class="my" src='${pageContext.request.contextPath}/resources/img/mi_icon.webapp'>
  						</c:when>
  						<c:otherwise>
